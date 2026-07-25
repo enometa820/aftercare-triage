@@ -2,7 +2,7 @@
 
 이 파일은 Claude Code가 이 저장소에서 작업할 때의 가이드다. 새 세션은 이 파일 → [`기획.md`] 순으로 읽으면 매끄럽게 이어진다.
 
-north star: 이용진의 AI Automation Engineer 커리어 자산 + (주)모아씨앤씨 AI Agent Engineer 선제어필. 결과와 무관하게 어느 AI 엔지니어 지원처에도 쓰는 포트폴리오.
+north star: 모아씨앤씨의 성형·피부 크로스보더 사후케어 문제를 겨냥한 AI 프로덕트 모듈 — 이용진의 AI Automation Engineer 포트폴리오 자산. (어필 맥락 등 내부 메모 = `_local/전략.md`, 공개 제외.)
 
 ## 이 프로젝트가 뭔가
 
