@@ -40,7 +40,8 @@ north star: 모아씨앤씨의 성형·피부 크로스보더 사후케어 문�
 ## 현재 단계 / 다음
 
 - [x] 전면조사·국제 SOTA 조사, 컨셉 grill 확정, 프로젝트 셋업
-- [ ] 기술 BP 심화조사 문서화(`BP-기술-베스트프랙티스.md`)
+- [x] 기술 BP 심화조사 문서화(`BP-기술-베스트프랙티스.md`)
+- [x] GitHub 공개 레포 (github.com/enometa820/aftercare-triage)
 - [ ] [`기획.md`] 8절 열린 질문 마저 닫기(시술종류·스택·브랜드명·덱 서사)
 - [ ] `enometa-spec` 9칸 명세 → plan → execute(개발) → HTML 피치덱 → 데모
 
