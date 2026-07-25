@@ -1,0 +1,4 @@
+# 참고구현 크롤러(refs/crawl.py) 재현용
+# 설치: uv venv .venv && uv pip install --python .venv -r refs/requirements.txt
+scrapling[fetchers]
+curl_cffi

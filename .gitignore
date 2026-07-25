@@ -16,6 +16,10 @@ __pycache__/
 _local/
 private/
 
+# 크롤 원본 덤프(제3자 콘텐츠 — 재호스팅 금지) + 테스트
+refs/raw/
+refs/_test_scrapling.py
+
 # OS·에디터
 .DS_Store
 Thumbs.db
