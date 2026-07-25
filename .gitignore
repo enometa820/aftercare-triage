@@ -1,0 +1,23 @@
+# 의존성·빌드
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc
+
+# 환경·시크릿
+.env
+.env.*
+*.key
+
+# 로컬 전용 / 공개 주의 (PII·회사 약점 티어다운 — 공개 결정 전까지 격리)
+조사-회사-모아씨앤씨.md
+_local/
+private/
+
+# OS·에디터
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
