@@ -18,15 +18,15 @@
   - [x] **AC-3.2**: `src/sonar_care/kb.py` — 시술·경과일로 해당 블록 라우팅해 full-context 문자열 + 항목 ID 반환
   - [x] **AC-3.3** (SKIP→M2, 착수 판정): `src/sonar_care/rag.py` + `data/kb/guidelines/` — 공개 의료 애프터케어 가이드라인 코퍼스 수집 + OSS 임베딩 벡터DB 인덱싱 + 검색·인용 반환 (코퍼스 규모 판단은 execute 착수 시 1줄 확정 — 부족하면 M2로 이동하고 본 AC skip 표기)
 - [ ] **AC-4**: 판정 — 구조화 출력 (spec §3.4)
-  - [ ] **AC-4.1**: `src/sonar_care/judge.py` — Claude 호출 + 시스템프롬프트(진단·처방 금지·권위 무력화) + KB/RAG 컨텍스트 주입 + Pydantic `Verdict` 검증·실패 시 retry
+  - [x] **AC-4.1**: `src/sonar_care/judge.py` — Claude 호출 + 시스템프롬프트(진단·처방 금지·권위 무력화) + KB/RAG 컨텍스트 주입 + Pydantic `Verdict` 검증·실패 시 retry
 - [ ] **AC-5**: 불확실성 기권 게이트 (spec §3.5)
-  - [ ] **AC-5.1**: `src/sonar_care/gate.py` — uqlm `BlackBoxUQ`(self-consistency, num_responses 5~10)로 confidence 산출 + `abstain` 결정 인터페이스
+  - [x] **AC-5.1**: `src/sonar_care/gate.py` — uqlm `BlackBoxUQ`(self-consistency, num_responses 5~10)로 confidence 산출 + `abstain` 결정 인터페이스
   - [ ] **AC-5.2**: `eval/calibrate.py` — 라벨 캘리브레이션셋으로 split conformal 임계값 산출(MAPIE), 가능 시 레드플래그 FNR 상한(CRC)
 - [ ] **AC-6**: 이미지 defer-by-default (spec §3.6)
-  - [ ] **AC-6.1**: `judge.py` VLM 경로 — 사진 self-consistency + 저신뢰/저품질 시 자동 기권, 텍스트·이미지 비대칭 융합(둘 다 고신뢰만 "정상")
+  - [x] **AC-6.1**: `judge.py` VLM 경로 — 사진 self-consistency + 저신뢰/저품질 시 자동 기권, 텍스트·이미지 비대칭 융합(둘 다 고신뢰만 "정상")
 - [ ] **AC-7**: 파이프라인 + 다국어 에스컬레이션 (spec §3.7)
-  - [ ] **AC-7.1**: `src/sonar_care/triage.py` — 오케스트레이션(입력→redflags→kb/rag→judge→gate→3-way 출력)
-  - [ ] **AC-7.2**: `src/sonar_care/escalation.py` — 레드플래그 시 구조화·번역(한↔일) 클리닉용 요약 생성
+  - [x] **AC-7.1**: `src/sonar_care/triage.py` — 오케스트레이션(입력→redflags→kb/rag→judge→gate→3-way 출력)
+  - [x] **AC-7.2**: `src/sonar_care/escalation.py` — 레드플래그 시 구조화·번역(한↔일) 클리닉용 요약 생성
 - [ ] **AC-8**: 평가셋 + eval 하네스 (spec §3.8)
   - [x] **AC-8.1**: `data/eval/cases.jsonl` — ~90건(쌍꺼풀·코성형·필러 × 정상/불확실/레드플래그 × ~10, 경계 집중, 한+일) + 라벨(가이드라인/룰 유래 + 멀티모델 합의 + 10% 사람 스팟체크 기록)
   - [ ] **AC-8.2**: `eval/test_triage.py` — DeepEval pytest, 레드플래그 recall 게이트(임계 미달 시 exit non-zero) + 클래스별 precision/recall
