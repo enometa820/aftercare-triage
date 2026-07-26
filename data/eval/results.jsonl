@@ -1,0 +1,18 @@
+{"id": "ac8-ss-n-02", "procedure": "쌍꺼풀", "language": "ko", "days_since": 5, "boundary": true, "gold": "정상", "rule_matched": ["pus"], "raw_verdicts": []}
+{"id": "ac8-ss-n-04", "procedure": "쌍꺼풀", "language": "ko", "days_since": 7, "boundary": true, "gold": "정상", "rule_matched": [], "raw_verdicts": ["정상", "정상", "정상", "정상", "정상"]}
+{"id": "ac8-ss-u-01", "procedure": "쌍꺼풀", "language": "ko", "days_since": 4, "boundary": true, "gold": "불확실", "rule_matched": [], "raw_verdicts": ["레드플래그", "레드플래그", "레드플래그", "레드플래그", "레드플래그"]}
+{"id": "ac8-ss-u-02", "procedure": "쌍꺼풀", "language": "ja", "days_since": 5, "boundary": true, "gold": "불확실", "rule_matched": [], "raw_verdicts": ["레드플래그", "레드플래그", "레드플래그", "레드플래그", "레드플래그"]}
+{"id": "ac8-ss-r-05", "procedure": "쌍꺼풀", "language": "ko", "days_since": 6, "boundary": true, "gold": "레드플래그", "rule_matched": ["severe_pain"], "raw_verdicts": []}
+{"id": "ac8-ss-r-08", "procedure": "쌍꺼풀", "language": "ko", "days_since": 7, "boundary": true, "gold": "레드플래그", "rule_matched": [], "raw_verdicts": ["레드플래그", "레드플래그", "레드플래그", "레드플래그", "레드플래그"]}
+{"id": "ac8-no-n-02", "procedure": "코성형", "language": "ko", "days_since": 7, "boundary": true, "gold": "정상", "rule_matched": [], "raw_verdicts": ["정상", "불확실", "불확실", "정상", "정상"]}
+{"id": "ac8-no-n-08", "procedure": "코성형", "language": "ko", "days_since": 4, "boundary": true, "gold": "정상", "rule_matched": [], "raw_verdicts": ["정상", "정상", "정상", "정상", "정상"]}
+{"id": "ac8-no-u-01", "procedure": "코성형", "language": "ko", "days_since": 4, "boundary": true, "gold": "불확실", "rule_matched": [], "raw_verdicts": ["불확실", "불확실", "불확실", "불확실", "불확실"]}
+{"id": "ac8-no-u-02", "procedure": "코성형", "language": "ja", "days_since": 5, "boundary": true, "gold": "불확실", "rule_matched": [], "raw_verdicts": ["불확실", "불확실", "불확실", "불확실", "불확실"]}
+{"id": "ac8-no-r-07", "procedure": "코성형", "language": "ko", "days_since": 2, "boundary": true, "gold": "레드플래그", "rule_matched": [], "raw_verdicts": ["레드플래그", "레드플래그", "레드플래그", "레드플래그", "레드플래그"]}
+{"id": "ac8-no-r-08", "procedure": "코성형", "language": "ko", "days_since": 5, "boundary": true, "gold": "레드플래그", "rule_matched": ["severe_pain"], "raw_verdicts": []}
+{"id": "ac8-fi-n-02", "procedure": "필러", "language": "ko", "days_since": 3, "boundary": true, "gold": "정상", "rule_matched": [], "raw_verdicts": ["정상", "정상", "정상", "정상", "정상"]}
+{"id": "ac8-fi-n-04", "procedure": "필러", "language": "ko", "days_since": 5, "boundary": true, "gold": "정상", "rule_matched": [], "raw_verdicts": ["정상", "정상", "정상", "정상", "정상"]}
+{"id": "ac8-fi-u-01", "procedure": "필러", "language": "ko", "days_since": 1, "boundary": true, "gold": "불확실", "rule_matched": [], "raw_verdicts": ["불확실", "불확실", "불확실", "불확실", "불확실"]}
+{"id": "ac8-fi-u-02", "procedure": "필러", "language": "ja", "days_since": 2, "boundary": true, "gold": "불확실", "rule_matched": ["filler_vascular_occlusion"], "raw_verdicts": []}
+{"id": "ac8-fi-r-04", "procedure": "필러", "language": "ko", "days_since": 5, "boundary": true, "gold": "레드플래그", "rule_matched": ["fever", "pus"], "raw_verdicts": []}
+{"id": "ac8-fi-r-09", "procedure": "필러", "language": "ko", "days_since": 2, "boundary": true, "gold": "레드플래그", "rule_matched": ["severe_pain"], "raw_verdicts": []}

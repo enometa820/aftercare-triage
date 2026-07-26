@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sonar Care — 측정된 안전 사후케어 트리아지</title>
+<style>
+  :root { --bg:#0f1720; --card:#172230; --ink:#e6edf3; --muted:#9fb0c0; --line:#2a3b4d;
+          --green:#2ea043; --amber:#d29922; --red:#e5534b; --accent:#3b82f6; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:20px 28px; border-bottom:1px solid var(--line); }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:4px 0 0; color:var(--muted); font-size:13px; }
+  .wrap { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:24px 28px; max-width:1200px; }
+  @media (max-width:860px){ .wrap{ grid-template-columns:1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  textarea,select,input { width:100%; background:#0d1520; color:var(--ink); border:1px solid var(--line);
+          border-radius:8px; padding:9px; font-size:14px; }
+  textarea{ min-height:80px; resize:vertical; }
+  .row{ display:flex; gap:10px; } .row>div{ flex:1; }
+  .btn{ margin-top:14px; width:100%; background:var(--accent); color:#fff; border:0; border-radius:8px;
+        padding:11px; font-size:15px; font-weight:600; cursor:pointer; }
+  .presets{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+  .presets button{ flex:1; background:#0d1520; color:var(--muted); border:1px solid var(--line);
+        border-radius:8px; padding:8px; font-size:12px; cursor:pointer; }
+  .verdict{ font-size:22px; font-weight:700; margin:6px 0; }
+  .badge{ display:inline-block; padding:2px 10px; border-radius:999px; font-size:13px; font-weight:700; }
+  .v-정상{ background:rgba(46,160,67,.15); color:var(--green); }
+  .v-불확실{ background:rgba(210,153,34,.15); color:var(--amber); }
+  .v-레드플래그{ background:rgba(229,83,75,.15); color:var(--red); }
+  .meta{ color:var(--muted); font-size:13px; margin:6px 0; }
+  .msg{ background:#0d1520; border:1px solid var(--line); border-radius:8px; padding:12px; margin-top:10px;
+        white-space:pre-wrap; font-size:14px; line-height:1.55; }
+  .tag{ font-size:11px; color:var(--muted); border:1px solid var(--line); border-radius:6px; padding:1px 7px; margin-right:5px; }
+  .panel img{ width:100%; border-radius:8px; border:1px solid var(--line); background:#fff; }
+  .kpi{ display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; }
+  .kpi div{ background:#0d1520; border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-size:13px; }
+  .kpi b{ display:block; font-size:18px; color:var(--ink); }
+  .warn{ color:var(--amber); font-size:12px; margin-top:8px; }
+  .hint{ color:var(--muted); font-size:12px; line-height:1.5; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🛰️ Sonar Care <span style="color:var(--muted);font-weight:400;font-size:14px;">— 측정된 안전 사후케어 트리아지</span></h1>
+  <p>표면 아래 신호를 감지한다. AI의 정확도가 아니라 <b>못 믿을 때 사람에게 넘기는 능력</b>을 측정한다. (진단·처방하지 않음 · 데모 데이터는 합성)</p>
+</header>
+
+<div class="wrap">
+  <!-- 입력 -->
+  <div class="card">
+    <h3 style="margin:0 0 4px;">환자 회복 문의</h3>
+    <div class="hint">시술 후 경과·증상을 입력하면 정상 안심 / 불확실 기권 / 레드플래그 에스컬레이션으로 분류합니다.</div>
+    <label>증상 (한국어 또는 일본어)</label>
+    <textarea id="symptom" placeholder="예: 수술 5일째인데 붓기랑 멍이 조금 있어요"></textarea>
+    <div class="row">
+      <div><label>시술</label>
+        <select id="procedure"><option>쌍꺼풀</option><option>코성형</option><option selected>필러</option></select></div>
+      <div><label>경과일</label><input id="days" type="number" value="1" min="0" /></div>
+      <div><label>언어</label><select id="language"><option value="ko">한국어</option><option value="ja">일본어</option></select></div>
+    </div>
+    <div class="presets">
+      <button onclick="preset('정상')">정상 예시</button>
+      <button onclick="preset('레드')">레드플래그(필러)</button>
+      <button onclick="preset('일본어')">일본어 크로스보더</button>
+    </div>
+    <button class="btn" onclick="run()">트리아지 실행</button>
+    <div id="result"></div>
+  </div>
+
+  <!-- 측정된 안전 패널 -->
+  <div class="card panel">
+    <h3 style="margin:0 0 4px;">측정된 안전 (실 Claude 실행 · 합성 라벨 서브셋)</h3>
+    <div class="hint">게이트 A(무게이트) vs B(게이트)의 Risk-Coverage와 놓친 레드플래그. 게이트는 저확신 케이스를 사람에게 넘긴다.</div>
+    <img src="/assets/measured-safety.png" alt="measured safety" onerror="this.style.display='none'" />
+    <div class="kpi" id="kpi"></div>
+    <div class="hint" style="margin-top:10px;">지표는 <code>eval/run_eval.py</code> 실측 → <code>docs/metrics.json</code>. n이 작아 통계적 보장이 아닌 경험적 측정(전체 실행 시 승격).</div>
+  </div>
+</div>
+
+<script>
+const METRICS = {{METRICS}};
+const HASKEY = {{HASKEY}};
+(function renderKpi(){
+  const k=document.getElementById('kpi'); if(!METRICS||!METRICS.n){k.innerHTML='<div>측정 데이터 없음 — run_eval 실행 필요</div>';return;}
+  k.innerHTML =
+    `<div>레드플래그 recall (게이트)<b>${METRICS.B_red_recall ?? '-'}</b></div>`+
+    `<div>놓친 레드플래그<b>${METRICS.B_missed_red}/${METRICS.total_red}</b></div>`+
+    `<div>Coverage<b>${METRICS.B_coverage}</b></div>`+
+    `<div>답한 것 정확도<b>${METRICS.B_acc_on_answered}</b></div>`;
+})();
+
+const PRESETS = {
+  '정상': {t:'수술 5일째인데 붓기랑 멍이 조금 있고 점점 나아지고 있어요', p:'코성형', d:5, l:'ko'},
+  '레드': {t:'필러 맞고 하루 됐는데 피부가 창백해지고 통증이 극심해요', p:'필러', d:1, l:'ko'},
+  '일본어': {t:'鼻の手術から3日目、腫れがひどくて片方だけ強く痛みます', p:'코성형', d:3, l:'ja'},
+};
+function preset(key){ const x=PRESETS[key];
+  symptom.value=x.t; procedure.value=x.p; days.value=x.d; language.value=x.l; }
+
+async function run(){
+  const box=document.getElementById('result');
+  if(!HASKEY){ box.innerHTML='<div class="warn">ANTHROPIC_API_KEY 미설정 — vault/env 주입 후 재시작하세요.</div>'; return; }
+  box.innerHTML='<div class="meta">판정 중… (self-consistency 다중 샘플)</div>';
+  try{
+    const res=await fetch('/api/triage',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({symptom_text:symptom.value,procedure:procedure.value,days_since:+days.value,language:language.value})});
+    const d=await res.json();
+    if(d.error){ box.innerHTML='<div class="warn">'+d.error+'</div>'; return; }
+    let refs=(d.red_flag_matched?.length? d.red_flag_matched: d.kb_refs||[]).map(r=>`<span class="tag">${r}</span>`).join('');
+    box.innerHTML=
+      `<div class="verdict"><span class="badge v-${d.verdict}">${d.verdict}</span>`+
+      `<span class="meta"> confidence ${d.confidence}${d.abstained?' · 기권(사람에게)':''}</span></div>`+
+      `<div class="meta">${refs}</div>`+
+      `<div class="msg">${d.reassurance||d.escalation_summary||''}</div>`+
+      (d.reasons?.length?`<div class="meta">근거: ${d.reasons.join(' · ')}</div>`:'');
+  }catch(e){ box.innerHTML='<div class="warn">오류: '+e+'</div>'; }
+}
+</script>
+</body>
+</html>

@@ -26,3 +26,15 @@
 - **AC-7.1** `triage.py`: rules-first→KB 라우팅→게이트→3-way 오케스트레이션. **AC-7.2** `escalation.py`: 다국어 에스컬/안심(무키 템플릿 폴백).
 - **오프라인 스모크 5/5 통과**(주입 판정): 룰 short-circuit·정상·기권·게이트 레드플래그(2/7)·일본어 에스컬.
 - **실 Claude 검증 통과**(vault 키·claude-sonnet-5): 코성형 5일→정상+안심, 쌍꺼풀 21일 악화→레드플래그+에스컬. ★claude-sonnet-5는 `temperature` 폐기 → 호출서 제거(self-consistency는 기본 샘플링 변동으로 성립).
+
+### Wave 4 — 측정·eval·데모 (메인 직접, 완료)
+- **실측 실행**: `eval/run_eval.py`로 층화 서브셋 18건 × k=5 실 Claude 실행 → `data/eval/results.jsonl`. (전체 90건은 `--limit` 없이 재현.)
+- **AC-9.1** `eval/rc_curve.py`: 게이트 A/B Risk-Coverage 곡선 + 놓친 레드플래그 → `docs/measured-safety.png`·`docs/metrics.json`. 실측: 레드플래그 recall 1.0(놓침0), 게이트 coverage 0.833·answered 정확도 0.733.
+- **AC-5.2** `eval/calibrate.py`: CRC(LTT 원리, MAPIE 등가) 임계값 선택 → τ=0.6, FNR 0.0, coverage 0.833. n 작음 caveat 명시.
+- **AC-8.2** `eval/test_triage.py`: pytest 6/6 통과 — 오프라인 불변식 4(무키) + 레드플래그 recall CI 게이트(놓침0) + 스키마. 결정론 exact-match 채점(judge 불안정 회피).
+- **AC-8.3** `eval/promptfoo.yaml`: 권위 사칭·응급 오도·멀티턴 적대 스위트.
+- **AC-10.1** `app/main.py`+`templates/index.html`: FastAPI 1페이지(자체완결·CDN 0) — 입력→판정/안심·에스컬 + 측정된 안전 패널. 정상/레드플래그/일본어 프리셋. TestClient 스모크: GET / 200, 실 /api/triage 정상 판정.
+- **정직 발견**: rules-first + 보수적 LLM으로 레드플래그 놓침은 이미 0 → 게이트의 값은 "저확신 정상을 사람에게 넘김"(coverage/정확도 tradeoff). 모델이 경계 케이스를 안전 쪽(레드플래그)으로 과분류하는 경향도 실측에 드러남. 과장 없이 리포트.
+
+## 실행 완료
+전체 AC 완료(AC-3.3만 M2 이동). 실 Claude로 파이프라인·측정 검증. 다음 = verify.

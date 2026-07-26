@@ -21,7 +21,7 @@
   - [x] **AC-4.1**: `src/sonar_care/judge.py` — Claude 호출 + 시스템프롬프트(진단·처방 금지·권위 무력화) + KB/RAG 컨텍스트 주입 + Pydantic `Verdict` 검증·실패 시 retry
 - [ ] **AC-5**: 불확실성 기권 게이트 (spec §3.5)
   - [x] **AC-5.1**: `src/sonar_care/gate.py` — uqlm `BlackBoxUQ`(self-consistency, num_responses 5~10)로 confidence 산출 + `abstain` 결정 인터페이스
-  - [ ] **AC-5.2**: `eval/calibrate.py` — 라벨 캘리브레이션셋으로 split conformal 임계값 산출(MAPIE), 가능 시 레드플래그 FNR 상한(CRC)
+  - [x] **AC-5.2**: `eval/calibrate.py` — 라벨 캘리브레이션셋으로 split conformal 임계값 산출(MAPIE), 가능 시 레드플래그 FNR 상한(CRC)
 - [ ] **AC-6**: 이미지 defer-by-default (spec §3.6)
   - [x] **AC-6.1**: `judge.py` VLM 경로 — 사진 self-consistency + 저신뢰/저품질 시 자동 기권, 텍스트·이미지 비대칭 융합(둘 다 고신뢰만 "정상")
 - [ ] **AC-7**: 파이프라인 + 다국어 에스컬레이션 (spec §3.7)
@@ -29,12 +29,12 @@
   - [x] **AC-7.2**: `src/sonar_care/escalation.py` — 레드플래그 시 구조화·번역(한↔일) 클리닉용 요약 생성
 - [ ] **AC-8**: 평가셋 + eval 하네스 (spec §3.8)
   - [x] **AC-8.1**: `data/eval/cases.jsonl` — ~90건(쌍꺼풀·코성형·필러 × 정상/불확실/레드플래그 × ~10, 경계 집중, 한+일) + 라벨(가이드라인/룰 유래 + 멀티모델 합의 + 10% 사람 스팟체크 기록)
-  - [ ] **AC-8.2**: `eval/test_triage.py` — DeepEval pytest, 레드플래그 recall 게이트(임계 미달 시 exit non-zero) + 클래스별 precision/recall
-  - [ ] **AC-8.3**: `eval/promptfoo.yaml` — 권위 사칭·멀티턴·응급 오도 적대 스위트
+  - [x] **AC-8.2**: `eval/test_triage.py` — DeepEval pytest, 레드플래그 recall 게이트(임계 미달 시 exit non-zero) + 클래스별 precision/recall
+  - [x] **AC-8.3**: `eval/promptfoo.yaml` — 권위 사칭·멀티턴·응급 오도 적대 스위트
 - [ ] **AC-9**: 측정·시각화 (spec §3.9)
-  - [ ] **AC-9.1**: `eval/rc_curve.py` — 게이트 A(무게이트) vs B(게이트) Risk-Coverage 곡선 + 레드플래그 FNR + ECE (matplotlib 이미지 산출)
+  - [x] **AC-9.1**: `eval/rc_curve.py` — 게이트 A(무게이트) vs B(게이트) Risk-Coverage 곡선 + 레드플래그 FNR + ECE (matplotlib 이미지 산출)
 - [ ] **AC-10**: 데모 UI (spec §3.10)
-  - [ ] **AC-10.1**: `app/main.py` + `app/templates/` — FastAPI + HTMX 1페이지(입력→판정/안심·에스컬 + 게이트 A/B 패널), 일본어 입력→한국어 에스컬 요약 시연 케이스 1건 프리셋
+  - [x] **AC-10.1**: `app/main.py` + `app/templates/` — FastAPI + HTMX 1페이지(입력→판정/안심·에스컬 + 게이트 A/B 패널), 일본어 입력→한국어 에스컬 요약 시연 케이스 1건 프리셋
 
 ## 메타
 
