@@ -40,16 +40,23 @@ north star: 모아씨앤씨의 성형·피부 크로스보더 사후케어 문�
 
 ## 현재 단계 / 다음
 
-- [x] 전면조사·국제 SOTA 조사, 컨셉 grill 확정, 프로젝트 셋업
-- [x] 기술 BP 심화조사 문서화(`BP-기술-베스트프랙티스.md`)
-- [x] GitHub 공개 레포 (github.com/enometa820/aftercare-triage)
-- [ ] [`기획.md`] 8절 열린 질문 마저 닫기(시술종류·스택·브랜드명·덱 서사)
-- [ ] `enometa-spec` 9칸 명세 → plan → execute(개발) → HTML 피치덱 → 데모
+- [x] 전면조사·국제 SOTA 조사, 컨셉 grill 확정, 프로젝트 셋업, 브랜드 Sonar
+- [x] **M1 Sonar Care** 구현 + 우로보로스 verify 통과(회차2). `.enometa/sonar-care/`
+- [x] **M2 Sonar Scan** 구현 + 우로보로스 verify 통과(회차2). `.enometa/sonar-scan/`
+- [x] 마감: QUICKSTART·데모 워크스루 대본·이미지 defer 검증·repo명 sonar rename
+- [ ] **피치덱** — HTML + SVG 설계지도 5종([`기획.md`]§9·8절 남은 스레드: 덱 서사·데모 형식)
+- [ ] (선택) M1 이미지 임상 평가셋(consented, 현재는 도식 합성만)·데모 영상
 
-## 명령 (개발 시작 후 채움)
+## 명령
 
 ```bash
-# 스택·명령은 spec에서 확정 후 여기 기록
+uv venv .venv && uv pip install --python .venv -e ".[dev]"   # + [research]는 선택
+export ANTHROPIC_API_KEY=...   # 실 판정·크롤 시 (vault: enometa-distill/.env.local)
+.venv/Scripts/python -m pytest eval/test_triage.py eval_scan/test_scan.py -q   # 무키 16개
+.venv/Scripts/python -m uvicorn app.main:app        # M1 데모 :8000
+.venv/Scripts/python eval/run_eval.py --k 5 && .venv/Scripts/python eval/rc_curve.py  # M1 측정
+.venv/Scripts/python eval_scan/run_scan.py          # M2 크롤·인텔 → scan_result.json
+# 자세한 재현 = README QUICKSTART
 ```
 
 ## 우선순위
