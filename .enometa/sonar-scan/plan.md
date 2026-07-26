@@ -5,15 +5,15 @@
 
 ## AC Tree
 
-- [ ] **AC-0**: 스캐폴딩 — `src/sonar_scan/__init__.py` + (M1 pyproject·config·.venv 재사용, 신규 의존 없음)
-- [ ] **AC-1**: 스키마 — `src/sonar_scan/schema.py` Pydantic: `ClinicSignal`(익명id·소스·리뷰수·평점·언급수·raw텍스트) · `MarketingRef`(hook·offer·channel·category·source) · `SuccessHypothesis`(가설·근거신호·"(가설)"플래그) · `ReputationScore`(익명id·composite·rank·감성분포) · `ScanResult`
-- [ ] **AC-2**: 수집 — `src/sonar_scan/collect.py` Scrapling으로 공개 소스(네이버 블로그/플레이스 검색·구글 등) 클리닉 마케팅·리뷰 신호 수집→`data/scan/raw/`(gitignore). robots/ToS 준수·PII 미수집. **봇벽 시 확보 가능 소스로 조정 or 라벨된 샘플, 수집 로그에 정직 표기**
-- [ ] **AC-3**: 익명화 — `src/sonar_scan/anonymize.py` 실명→Clinic A/B/C 결정론 매핑(매핑표 `_local/`, gitignore). 공개 산출물은 익명만
-- [ ] **AC-4**: 레퍼런스·성공요인 추출 — `src/sonar_scan/extract.py` LLM(주입형)로 광고·프로모션→`MarketingRef` 구조화 + `SuccessHypothesis`("(가설)" 라벨·근거). Pydantic 검증+retry
-- [ ] **AC-5**: 평판 지수·상대순위 — `src/sonar_scan/reputation.py` 투명 산출식(리뷰수·평점·감성·언급량 가중 합)→composite + 수집셋 내 rank. 산출식 문서화, "공식순위 아님" 명시
-- [ ] **AC-6**: 감성·토픽 — `src/sonar_scan/sentiment.py` LLM(주입형) 리뷰 감성(긍/부/중)·토픽 집계(PII 0)
-- [ ] **AC-7**: 대시보드 — `app/scan.py`(+템플릿) 또는 정적 HTML: "경쟁 레퍼런스 + 성공요인 가설 + 우리 상대순위·강약점 토픽" 한 화면. M1 톤
-- [ ] **AC-8**: eval·정직 테스트 — `eval/test_scan.py` pytest: 익명화 동작·공개 산출물 PII/실명 grep 0·성공요인 "(가설)" 라벨 존재·지수 산출식 결정론 재현. 무키(주입 LLM·캐시 소비)
+- [x] **AC-0**: 스캐폴딩 — `src/sonar_scan/__init__.py` + (M1 pyproject·config·.venv 재사용, 신규 의존 없음)
+- [x] **AC-1**: 스키마 — `src/sonar_scan/schema.py` Pydantic: `ClinicSignal`(익명id·소스·리뷰수·평점·언급수·raw텍스트) · `MarketingRef`(hook·offer·channel·category·source) · `SuccessHypothesis`(가설·근거신호·"(가설)"플래그) · `ReputationScore`(익명id·composite·rank·감성분포) · `ScanResult`
+- [x] **AC-2**: 수집 — `src/sonar_scan/collect.py` Scrapling으로 공개 소스(네이버 블로그/플레이스 검색·구글 등) 클리닉 마케팅·리뷰 신호 수집→`data/scan/raw/`(gitignore). robots/ToS 준수·PII 미수집. **봇벽 시 확보 가능 소스로 조정 or 라벨된 샘플, 수집 로그에 정직 표기**
+- [x] **AC-3**: 익명화 — `src/sonar_scan/anonymize.py` 실명→Clinic A/B/C 결정론 매핑(매핑표 `_local/`, gitignore). 공개 산출물은 익명만
+- [x] **AC-4**: 레퍼런스·성공요인 추출 — `src/sonar_scan/extract.py` LLM(주입형)로 광고·프로모션→`MarketingRef` 구조화 + `SuccessHypothesis`("(가설)" 라벨·근거). Pydantic 검증+retry
+- [x] **AC-5**: 평판 지수·상대순위 — `src/sonar_scan/reputation.py` 투명 산출식(리뷰수·평점·감성·언급량 가중 합)→composite + 수집셋 내 rank. 산출식 문서화, "공식순위 아님" 명시
+- [x] **AC-6**: 감성·토픽 — `src/sonar_scan/sentiment.py` LLM(주입형) 리뷰 감성(긍/부/중)·토픽 집계(PII 0)
+- [x] **AC-7**: 대시보드 — `app/scan.py`(+템플릿) 또는 정적 HTML: "경쟁 레퍼런스 + 성공요인 가설 + 우리 상대순위·강약점 토픽" 한 화면. M1 톤
+- [x] **AC-8**: eval·정직 테스트 — `eval/test_scan.py` pytest: 익명화 동작·공개 산출물 PII/실명 grep 0·성공요인 "(가설)" 라벨 존재·지수 산출식 결정론 재현. 무키(주입 LLM·캐시 소비)
 
 ## 메타
 

@@ -19,6 +19,8 @@ private/
 # 크롤 원본 덤프(제3자 콘텐츠 — 재호스팅 금지) + 테스트
 refs/raw/
 refs/_test_scrapling.py
+# M2 수집 원본(제3자 콘텐츠·실명) — 익명 파생만 커밋
+data/scan/raw/
 
 # OS·에디터
 .DS_Store

@@ -1,0 +1,278 @@
+{
+  "refs": [
+    {
+      "clinic_id": "Clinic A",
+      "hook": "보톡스, 필러시술(부작용주의) 텐쎄라, 텐써마 시술, 기미잡티, 제모, 안면거상",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "기타",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic B",
+      "hook": "자연스러운 라인과 비율을 고려한 맞춤 코성형, 코재수술, 코수술 전담의료진",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic C",
+      "hook": "자연스러움, 빠른회복 안전지향, 맞춤상담, 신사역1번출구, 성형외과전문의 3인",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic D",
+      "hook": "어떤 유형의 코라도 자연스럽게, 내것 같은 코 라인! 풍부한 수술경험, 안전우선",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic E",
+      "hook": "내게 알맞은 맞춤 코성형, 성형외과 전문의, 안전수술 지향, 체계적인 사후관리",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic F",
+      "hook": "낮은코, 복코, 코재수술, 유형별 맞춤 코성형, 논현역 4번 출구",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic G",
+      "hook": "서울대졸업 27년 경력 성형외과전문의, 코성형 중점, 강남역 3번출구",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic H",
+      "hook": "아름답고 자연스러운 라인. 코질환 수술. 유형별 맞춤 코성형. 코재수술도 아름답게",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic I",
+      "hook": "성형외과 및 이비인후과전문의 각1인 협진, 코성형 담당팀의 유형별 맞춤 코성형",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic J",
+      "hook": "자연스러운 아름다움 추구! 논현역 8번출구",
+      "offer": null,
+      "channel": "플레이스",
+      "category": "눈성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "미상",
+      "hook": "리얼 코성형 6개월간의 리얼한 코성형 후기, 인스타에서 찾은 착붙 코라인!",
+      "offer": null,
+      "channel": "기타",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "Clinic K",
+      "hook": "2025년도에도 HOT한 코성형 후기.zip",
+      "offer": null,
+      "channel": "기타",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    },
+    {
+      "clinic_id": "미상",
+      "hook": "현직 성형외과 직원의 생생한 코성형 후기",
+      "offer": null,
+      "channel": "기타",
+      "category": "코성형",
+      "source": "네이버 view(공개)"
+    }
+  ],
+  "hypotheses": [
+    {
+      "clinic_id": "Clinic B, C, D, E, F, H, I (코성형 다수)",
+      "hypothesis": "'자연스러움'과 '유형별/맞춤' 키워드를 반복 노출하면 수술 부작용에 대한 잠재 고객의 불안을 낮춰 클릭 전환에 유리할 것이다",
+      "evidence_signals": [
+        "다수 클리닉이 '자연스러운','맞춤','내것 같은' 등 유사 표현을 공통적으로 사용",
+        "코재수술 관련 문구도 '아름답게','전담의료진'과 결합해 안전성 강조"
+      ],
+      "is_hypothesis": true
+    },
+    {
+      "clinic_id": "Clinic C, E, G",
+      "hypothesis": "전문의 수, 경력 연차, 학력(서울대 등) 등 신뢰 지표를 명시하면 고관여 시술 카테고리에서 신뢰도를 높여 상담 전환을 유도할 것이다",
+      "evidence_signals": [
+        "'성형외과전문의 3인','서울대졸업 27년 경력','성형외과 및 이비인후과전문의 협진' 등 구체적 자격 언급"
+      ],
+      "is_hypothesis": true
+    },
+    {
+      "clinic_id": "Clinic C, F, G, J",
+      "hypothesis": "지하철역 출구번호 등 구체적 위치 정보를 노출하면 지역 기반 검색 사용자의 방문 의도를 높일 것이다",
+      "evidence_signals": [
+        "'신사역1번출구','논현역 4번 출구','강남역 3번출구','논현역 8번출구' 등 위치 특정 문구가 다수 클리닉에서 반복"
+      ],
+      "is_hypothesis": true
+    },
+    {
+      "clinic_id": "미상, Clinic K",
+      "hypothesis": "'후기' 형식의 콘텐츠(인스타 후기, 현직 직원 후기, 연도별 모음)는 광고 거부감을 낮추고 실사용자 신뢰를 유도해 조회수를 높일 것이다",
+      "evidence_signals": [
+        "'리얼 코성형 후기','현직 성형외과 직원의 생생한 후기','HOT한 코성형 후기.zip' 등 체험담·아카이브 형태의 제목 사용",
+        "채널이 '플레이스'가 아닌 '기타'로 별도 유형 존재"
+      ],
+      "is_hypothesis": true
+    },
+    {
+      "clinic_id": "Clinic D, F",
+      "hypothesis": "낮은코, 복코 등 특정 코 유형을 명시적으로 언급하면 유사 고민을 가진 잠재고객의 자기동일시를 유도해 검색 매칭률을 높일 것이다",
+      "evidence_signals": [
+        "'낮은코, 복코, 코재수술'과 '어떤 유형의 코라도' 등 특정 신체 고민 키워드 직접 노출"
+      ],
+      "is_hypothesis": true
+    }
+  ],
+  "reputation": [
+    {
+      "clinic_id": "Clinic K",
+      "composite": 1.0,
+      "rank": 1,
+      "sentiment_dist": {
+        "긍정": 1,
+        "중립": 0,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic A",
+      "composite": 0.8,
+      "rank": 2,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic B",
+      "composite": 0.8,
+      "rank": 3,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic C",
+      "composite": 0.8,
+      "rank": 4,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic D",
+      "composite": 0.8,
+      "rank": 5,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic E",
+      "composite": 0.8,
+      "rank": 6,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic F",
+      "composite": 0.8,
+      "rank": 7,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic G",
+      "composite": 0.8,
+      "rank": 8,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic H",
+      "composite": 0.8,
+      "rank": 9,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic I",
+      "composite": 0.8,
+      "rank": 10,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    },
+    {
+      "clinic_id": "Clinic J",
+      "composite": 0.8,
+      "rank": 11,
+      "sentiment_dist": {
+        "긍정": 0,
+        "중립": 1,
+        "부정": 0
+      },
+      "review_count": 1
+    }
+  ],
+  "our_clinic_id": "Clinic E",
+  "formula": "composite = 0.6*norm(mention_count) + 0.4*sentiment_score ; sentiment_score=(긍정-부정)/max(1,총언급) 을 0~1로 시프트. 공개 블로그 언급·감성 기반 투명지수 — 네이버·강남언니 공식 순위 재현 아님.",
+  "collection_note": "네이버 view 공개 크롤(구글·맵 봇벽 미사용). 익명 클리닉 11곳·레퍼런스 13건·가설 5건. 성공요인=가설, 순위=투명지수(공식 아님), 리뷰어 PII 0."
+}
