@@ -61,10 +61,11 @@ def _default_call_fn(temperature: float) -> Callable[[str, object], str]:
     client = get_anthropic_client()
 
     def _call(system: str, user_content) -> str:
+        # 최신 모델(claude-sonnet-5 등)은 temperature 파라미터를 폐기 — 전달하지 않는다.
+        # self-consistency 변동은 모델 기본 샘플링으로 확보(경계 케이스는 k회 판정이 갈림).
         msg = client.messages.create(
             model=SETTINGS.judge_model,
             max_tokens=600,
-            temperature=temperature,
             system=system,
             messages=[{"role": "user", "content": user_content}],
         )

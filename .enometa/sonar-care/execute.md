@@ -25,3 +25,4 @@
 - **AC-6.1** `judge.py` 이미지: 사진 첨부 + defer-by-default(애매하면 표 갈려 confidence↓→기권), 정확도 주장 안 함.
 - **AC-7.1** `triage.py`: rules-first→KB 라우팅→게이트→3-way 오케스트레이션. **AC-7.2** `escalation.py`: 다국어 에스컬/안심(무키 템플릿 폴백).
 - **오프라인 스모크 5/5 통과**(주입 판정): 룰 short-circuit·정상·기권·게이트 레드플래그(2/7)·일본어 에스컬.
+- **실 Claude 검증 통과**(vault 키·claude-sonnet-5): 코성형 5일→정상+안심, 쌍꺼풀 21일 악화→레드플래그+에스컬. ★claude-sonnet-5는 `temperature` 폐기 → 호출서 제거(self-consistency는 기본 샘플링 변동으로 성립).

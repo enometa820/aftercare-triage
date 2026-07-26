@@ -29,7 +29,6 @@ def _clinic_call_fn() -> Callable[[str, str], str] | None:
         msg = client.messages.create(
             model=SETTINGS.judge_model,
             max_tokens=500,
-            temperature=0.3,
             system=system,
             messages=[{"role": "user", "content": user}],
         )
