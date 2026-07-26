@@ -86,3 +86,45 @@
 - F7 라벨 합의: 독립 2차 모델(예: 다른 모델)로 서브셋 재라벨→합의율 기록(자기확증 회피 defense #2 실행).
 - F8 A/B 재측정·재프레이밍: 전체 90건 실행 + 게이트 가치를 데이터가 보이는 대로 정직 서술(레드플래그는 rules-first가 이미 잡음 → 게이트 값은 모호구간 기권). 미입증을 과장 안 함.
 
+
+---
+
+## 회차 2 (2026-07-26)
+
+### 수정 반영 (회차1 실패 갭)
+| 갭 | 수정 | 근거 |
+|---|---|---|
+| F1 인용강제 | gate.py 정상+빈 kb_refs→불확실 강등 | test_f1_citation_enforced ✓ |
+| F2 출력필터 | output_guard.py 진단·처방 결정론 필터 + triage 배선 | test_f2_output_guard ✓ |
+| F3 ECE | metrics.py ece()=0.182 | metrics.json |
+| F4 CI 배선 | .github/workflows/ci.yml(ruff+pytest 게이트) | 파일 존재 |
+| F5 선언-미사용 | pyproject core=import분만, uqlm·mapie·deepeval→optional research(네이티브 명시) | pyproject.toml |
+| F6 이미지 융합 | triage.py 텍스트-only 비교→불일치 defer, image_note 실필드 | test_f6_image_fusion ✓ |
+| F7 자기확증 회피 | consensus.py 독립 haiku 재라벨 합의 93.3% | data/eval/consensus.json |
+| F8 A/B 정직화 | 전체 90건 실측, "게이트가 레드플래그 더 잡음" 미입증을 데이터대로 재서술(값=모호구간 기권) | docs/measured-safety.md |
+
+### Phase 1 — 결정론 (재실행)
+- ruff: All checks passed / pytest: 9 passed(F1·F2·F6 추가) / import·데모 스모크 ✓
+
+### Phase 1.5 — eval (전체 90)
+- 놓친 레드플래그 A=B=0/30(recall 1.0) · 게이트 coverage 0.756 · answered acc 0.824 · ECE 0.182 · 합의율 0.933
+- 정직: 게이트의 값은 레드플래그 추가검출이 아니라 모호구간 기권. 과장 제거.
+
+### Phase 3 — Adversarial (회차2, verify-adv2 격리)
+판정 = **통과.** 회차1 갭 8개 전부 실제로 닫힘, 남은 겉핥기·날조 없음.
+| # | 갭 | 판정 | 근거 |
+|---|---|---|---|
+| F1 인용강제 | ✓ | gate.py:82-92 정상+빈 kb_refs→불확실, test:95-100 |
+| F2 출력가드 | ✓ | output_guard.py 한/일 정규식+대체, triage 3경로 enforce |
+| F3 ECE | ✓ | metrics.py ece(), metrics.json B_ece 0.182 재계산 일치 |
+| F4 CI | ✓ | ci.yml ruff+pytest, MAX_MISSED_REDFLAG=0 assertion |
+| F5 선언정직 | ✓ | pyproject core=import 7개, 나머지 optional research, 코드 import 0 |
+| F6 이미지융합 | ✓ | triage.py:64-75 텍스트-only 비교→defer, image_note 실필드 |
+| F7 라벨합의 | ✓ | consensus.py 독립 haiku, consensus.json 합의 0.933 |
+| F8 A/B 정직화 | ✓ | results 90줄, metrics 독립 재계산 자릿수 일치=날조0, 미입증 정직 서술 |
+스코프 이탈 없음. 격리 참고(blocker 아님): F2 정규식 보수적, F7 무키라 재실행 검증 불가(커밋 신뢰), F1 효과는 라이브 게이트·테스트 반영(A/B 수치엔 미포함, 설계상 무해).
+
+## 종합 판정 — 회차 2: **통과 ✅**
+Phase 1·1.5·2·2.5·외부자산·3 전부 통과. 우로보로스 sonar-care(M1) 사이클 완료.
+- 성공기준 5/5: 파이프라인 작동·게이트 A/B 곡선·일본어 시연·eval CI·웹 데모.
+- 정직성: 플래그십 가설 미입증(A·B 놓침 0)을 데이터대로 재서술, 라이브러리 대체·n 한계 명시. 날조 0.
