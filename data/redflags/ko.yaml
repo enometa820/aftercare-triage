@@ -1,0 +1,125 @@
+# 레드플래그 사전 (한국어) — 술후 응급·이상 신호 키워드 사전
+#
+# 이 사전은 LLM 판정 *앞단*에서 결정론 룰로 응급 신호를 먼저 잡기 위한 것이다.
+# 권위 사칭·응급 오도가 LLM을 속여도 이 룰은 키워드 매칭이라 안 속는다.
+#
+# 룰 = 「신호 감지」만 한다. 진단·처방·치료 지시가 아니다.
+# 매칭되면 파이프라인이 레드플래그로 에스컬레이션(의사에게 넘김)한다.
+#
+# 각 룰 필드:
+#   id        : 룰 식별자 (ja.yaml과 동일해야 함 — 두 언어가 같은 신호를 가리킴)
+#   procedure : 공통 | 쌍꺼풀 | 코성형 | 필러  (schema.py Procedure enum + 공통)
+#   severity  : 응급  = 시간다툼, 즉시 응급실·119 (혈관폐색·안구 압박·기도폐쇄·전신 패혈 신호)
+#               긴급  = 빠른 의료진 연락 (감염 징후·과도 출혈·급격한 비대칭)
+#   keywords  : 환자 서술에 나타날 법한 한국어 표현. 매칭 = 정규화 후 부분문자열 포함.
+#   source    : 공개 의학 출처. 못 찾은 항목은 "일반 임상 상식(출처 보강 필요)"로 정직 표기.
+#
+# 주의: 키워드는 부분문자열 매칭이므로 너무 짧으면 오탐한다("열"→"열심히").
+#        구절 단위로 두어 오탐을 줄인다. 레드플래그는 보수적으로(사람에게 넘기는 쪽) 잡는다.
+
+rules:
+  # ── 공통 (시술 무관 전신·상처 응급) ─────────────────────────────
+  - id: fever
+    procedure: 공통
+    severity: 긴급
+    keywords: ["발열", "고열", "미열", "오한", "열이 나", "열나", "몸살", "38도", "39도"]
+    source: "Cleveland Clinic — Surgical Wound Infection | https://my.clevelandclinic.org/health/diseases/surgical-wound-infection"
+
+  - id: spreading_redness
+    procedure: 공통
+    severity: 응급
+    keywords: ["번지는 발적", "붉은 줄", "빨간 줄", "발적이 번", "붉은기가 번", "점점 붉", "벌겋게 번", "빨갛게 번", "붉은 선이"]
+    source: "End Sepsis — Sepsis and Wounds (붉은 줄 번짐 = 응급실) | https://www.endsepsis.org/what-is-sepsis/sepsis-and-wounds/"
+
+  - id: pus
+    procedure: 공통
+    severity: 긴급
+    keywords: ["화농", "고름", "진물", "누런 분비물", "고름이", "짓무르", "노란 진물", "냄새 나는 진물"]
+    source: "Cleveland Clinic — Surgical Wound Infection | https://my.clevelandclinic.org/health/diseases/surgical-wound-infection"
+
+  - id: severe_pain
+    procedure: 공통
+    severity: 긴급
+    keywords: ["극심한 통증", "참을 수 없는 통증", "통증이 심", "진통제가 안 듣", "진통제도 안 듣", "점점 심한 통증", "통증이 점점", "갈수록 아프", "통증이 악화"]
+    source: "Cleveland Clinic — Surgical Wound Infection (통증 악화 = 감염 경고) | https://my.clevelandclinic.org/health/diseases/surgical-wound-infection"
+
+  - id: dyspnea
+    procedure: 공통
+    severity: 응급
+    keywords: ["호흡곤란", "숨쉬기 힘", "숨이 차", "숨쉬기 어려", "숨을 못", "숨이 막", "가쁜 숨"]
+    source: "End Sepsis — Sepsis and Wounds (빠른 호흡·전신 감염) | https://www.endsepsis.org/what-is-sepsis/sepsis-and-wounds/"
+
+  - id: altered_consciousness
+    procedure: 공통
+    severity: 응급
+    keywords: ["의식저하", "의식이 흐려", "정신이 혼미", "혼미", "의식을 잃", "기절", "횡설수설", "말이 어눌", "정신이 오락가락"]
+    source: "End Sepsis — Sepsis and Wounds (혼란·의식 변화 = 패혈 신호) | https://www.endsepsis.org/what-is-sepsis/sepsis-and-wounds/"
+
+  # ── 쌍꺼풀 (눈꺼풀 수술) ───────────────────────────────────────
+  - id: eye_excessive_bleeding
+    procedure: 쌍꺼풀
+    severity: 긴급
+    keywords: ["과도한 출혈", "출혈이 멈추지", "피가 멈추지", "계속 피가", "출혈이 계속", "피가 계속 나"]
+    source: "Plast Reconstr Surg (LWW) — Blepharoplasty Complications | https://journals.lww.com/plasreconsurg/fulltext/10.1097/prs.0b013e3181ce17e8~blepharoplasty-complications"
+
+  - id: eye_vision_loss
+    procedure: 쌍꺼풀
+    severity: 응급
+    keywords: ["시력저하", "시력이 떨어", "시야가 어두", "시야 이상", "앞이 안 보", "시야가 좁", "눈이 안 보", "갑자기 안 보"]
+    source: "NCBI PMC — Orbital Compartment Syndrome after Blepharoplasty (급성 시력저하 = 안와 출혈 응급) | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12594235/"
+
+  - id: eye_proptosis
+    procedure: 쌍꺼풀
+    severity: 응급
+    keywords: ["눈이 튀어나", "안구 돌출", "눈이 단단", "눈이 딱딱", "눈 뒤가 아프", "극심한 눈 통증", "눈이 빠질 듯", "눈알이 튀어"]
+    source: "NCBI PMC — Orbital Compartment Syndrome / Retrobulbar hematoma (안구 돌출·단단한 눈·극심 통증) | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12594235/"
+
+  - id: eye_asymmetry_change
+    procedure: 쌍꺼풀
+    severity: 긴급
+    keywords: ["급격한 비대칭", "갑자기 비대칭", "비대칭이 심해", "짝짝이가 심", "한쪽만 심하게 부"]
+    source: "Plast Reconstr Surg (LWW) — Blepharoplasty Complications | https://journals.lww.com/plasreconsurg/fulltext/10.1097/prs.0b013e3181ce17e8~blepharoplasty-complications"
+
+  # ── 코성형 (코 수술) ──────────────────────────────────────────
+  - id: nose_heavy_bleeding
+    procedure: 코성형
+    severity: 긴급
+    keywords: ["코피가 멈추지", "코출혈", "코피가 계속", "코에서 피가", "심한 코피", "코피가 쏟아"]
+    source: "Belorens — Warning Signs of Complications After Rhinoplasty | https://www.belorens.com/blog/warning-signs-of-complications-after-rhinoplasty/"
+
+  - id: nose_septal_hematoma
+    procedure: 코성형
+    severity: 응급
+    keywords: ["코가 완전히 막", "숨을 못 쉴 정도로 막", "코막힘이 급", "중격이 부", "코 안이 부어 막", "양쪽 코가 다 막"]
+    source: "Rhinoplasty Archive — Complications in Rhinoplasty (중격 혈종·기도폐쇄) | https://www.rhinoplastyarchive.com/articles/rhinoplasty-fundamentals/complications-in-rhinoplasty"
+
+  - id: nose_purulent
+    procedure: 코성형
+    severity: 긴급
+    keywords: ["누런 콧물", "악취 나는 콧물", "고름 콧물", "냄새 나는 분비물", "초록색 콧물", "냄새 나는 콧물"]
+    source: "Berkeley Square Medical — Infection After Rhinoplasty | https://www.berkeleysquaremedical.com/infection-after-rhinoplasty/"
+
+  - id: nose_asymmetry_change
+    procedure: 코성형
+    severity: 긴급
+    keywords: ["코가 급격히 비뚤", "갑자기 코가 휘", "코 모양이 급변", "코가 갑자기 틀어"]
+    source: "Belorens — Warning Signs of Complications After Rhinoplasty | https://www.belorens.com/blog/warning-signs-of-complications-after-rhinoplasty/"
+
+  # ── 필러 (주입형) ─────────────────────────────────────────────
+  - id: filler_vascular_occlusion
+    procedure: 필러
+    severity: 응급
+    keywords: ["피부가 창백", "하얗게 변", "피부가 하얗", "청색", "보라색으로", "얼룩덜룩", "그물 모양", "물집", "피부가 차갑", "감각이 없", "불균형한 통증", "점점 심해지는 통증", "피부가 파랗", "피부가 파래", "새하얗"]
+    source: "Jane Yoo MD — Filler Vascular Occlusion Warning Signs (창백·얼룩·물집·시야이상 = 시간다툼 응급) | https://www.janeyoomd.com/filler-vascular-occlusion-warning-signs-emergency-treatment-and-why-time-is-critical/ ; Cleveland Clinic — Vascular Occlusion | https://my.clevelandclinic.org/health/diseases/24682-vascular-occlusion"
+
+  - id: filler_vision_change
+    procedure: 필러
+    severity: 응급
+    keywords: ["시야이상", "시야가 흐", "눈이 안 보", "시력이 갑자기", "앞이 캄캄", "눈 주변 통증", "시야가 좁아", "한쪽 눈이 안"]
+    source: "Jane Yoo MD — Filler Vascular Occlusion (시야 증상 = 실명 위험, 즉시 응급) | https://www.janeyoomd.com/filler-vascular-occlusion-warning-signs-emergency-treatment-and-why-time-is-critical/"
+
+  - id: filler_infection
+    procedure: 필러
+    severity: 긴급
+    keywords: ["주사 부위 발적", "시술 부위가 붓고 아프", "단단한 멍울", "주입 부위 고름", "주사 자리가 곪"]
+    source: "AestheticMedGuide — Dermal Filler Complications (환자 가이드) | https://aestheticmedguide.com/blog/dermal-filler-complications-patient-guide"

@@ -1,0 +1,122 @@
+# レッドフラグ辞書 (日本語) — 術後の緊急・異常サインのキーワード辞書
+#
+# この辞書はLLM判定の *前段* で決定論ルールにより緊急サインを先に捕捉するためのもの。
+# 権威の偽装・緊急性の誤誘導がLLMを騙しても、このルールはキーワード照合なので騙されない。
+#
+# ルールは「サイン検知」のみを行う。診断・処方・治療指示ではない。
+# 一致するとパイプラインがレッドフラグとしてエスカレーション(医師へ引き継ぎ)する。
+#
+# 各ルールのフィールド:
+#   id        : ルール識別子 (ko.yamlと同一 — 両言語が同じサインを指す)
+#   procedure : 공통 | 쌍꺼풀 | 코성형 | 필러  (schema.py Procedure enum + 공통。値は韓国語のまま)
+#   severity  : 응급  = 一刻を争う、直ちに救急・119 (血管閉塞・眼球圧迫・気道閉塞・全身敗血のサイン)
+#               긴급  = 速やかな医療者への連絡 (感染徴候・過度の出血・急激な左右差)
+#   keywords  : 患者の記述に現れそうな日本語表現。一致 = 正規化後の部分文字列包含。
+#   source    : 公開医学出典。見つからない項目は "일반 임상 상식(출처 보강 필요)" と正直に表記。
+
+rules:
+  # ── 공통 (施術に関わらない全身・創部の緊急) ──────────────────
+  - id: fever
+    procedure: 공통
+    severity: 긴급
+    keywords: ["発熱", "高熱", "微熱", "悪寒", "熱が出", "熱っぽい", "38度", "39度"]
+    source: "Cleveland Clinic — Surgical Wound Infection | https://my.clevelandclinic.org/health/diseases/surgical-wound-infection"
+
+  - id: spreading_redness
+    procedure: 공통
+    severity: 응급
+    keywords: ["赤みが広が", "赤い筋", "発赤が広が", "赤く広が", "赤い線が"]
+    source: "End Sepsis — Sepsis and Wounds (赤い筋の拡大 = 救急) | https://www.endsepsis.org/what-is-sepsis/sepsis-and-wounds/"
+
+  - id: pus
+    procedure: 공통
+    severity: 긴급
+    keywords: ["膿", "うみ", "化膿", "黄色い分泌物", "臭い分泌物", "黄色い浸出液", "じゅくじゅく"]
+    source: "Cleveland Clinic — Surgical Wound Infection | https://my.clevelandclinic.org/health/diseases/surgical-wound-infection"
+
+  - id: severe_pain
+    procedure: 공통
+    severity: 긴급
+    keywords: ["激しい痛み", "耐えられない痛み", "痛みがひどい", "鎮痛剤が効かない", "痛み止めが効かない", "痛みがどんどん", "痛みが強くなる", "痛みが悪化"]
+    source: "Cleveland Clinic — Surgical Wound Infection (痛みの悪化 = 感染警告) | https://my.clevelandclinic.org/health/diseases/surgical-wound-infection"
+
+  - id: dyspnea
+    procedure: 공통
+    severity: 응급
+    keywords: ["呼吸困難", "息が苦しい", "息苦しい", "息ができない", "呼吸がしづらい", "息が詰ま"]
+    source: "End Sepsis — Sepsis and Wounds (速い呼吸・全身感染) | https://www.endsepsis.org/what-is-sepsis/sepsis-and-wounds/"
+
+  - id: altered_consciousness
+    procedure: 공통
+    severity: 응급
+    keywords: ["意識がもうろう", "意識が朦朧", "意識低下", "意識を失", "気を失", "ろれつが回らない", "朦朧", "意識がはっきりしない"]
+    source: "End Sepsis — Sepsis and Wounds (混乱・意識変化 = 敗血サイン) | https://www.endsepsis.org/what-is-sepsis/sepsis-and-wounds/"
+
+  # ── 쌍꺼풀 (まぶた手術) ───────────────────────────────────────
+  - id: eye_excessive_bleeding
+    procedure: 쌍꺼풀
+    severity: 긴급
+    keywords: ["過度の出血", "出血が止まらない", "血が止まらない", "出血が続く", "ずっと血が", "血がずっと"]
+    source: "Plast Reconstr Surg (LWW) — Blepharoplasty Complications | https://journals.lww.com/plasreconsurg/fulltext/10.1097/prs.0b013e3181ce17e8~blepharoplasty-complications"
+
+  - id: eye_vision_loss
+    procedure: 쌍꺼풀
+    severity: 응급
+    keywords: ["視力低下", "視力が落ち", "視界が暗", "視野の異常", "見えない", "前が見えない", "視野が狭", "急に見えなく"]
+    source: "NCBI PMC — Orbital Compartment Syndrome after Blepharoplasty (急性視力低下 = 眼窩出血の緊急) | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12594235/"
+
+  - id: eye_proptosis
+    procedure: 쌍꺼풀
+    severity: 응급
+    keywords: ["目が飛び出", "眼球突出", "目が硬い", "目が固い", "目の奥が痛", "激しい目の痛み", "目が突き出"]
+    source: "NCBI PMC — Orbital Compartment Syndrome / Retrobulbar hematoma (眼球突出・硬い眼・激痛) | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12594235/"
+
+  - id: eye_asymmetry_change
+    procedure: 쌍꺼풀
+    severity: 긴급
+    keywords: ["急な左右差", "急に左右差", "急激な非対称", "左右差がひどく", "片方だけひどく腫れ"]
+    source: "Plast Reconstr Surg (LWW) — Blepharoplasty Complications | https://journals.lww.com/plasreconsurg/fulltext/10.1097/prs.0b013e3181ce17e8~blepharoplasty-complications"
+
+  # ── 코성형 (鼻手術) ──────────────────────────────────────────
+  - id: nose_heavy_bleeding
+    procedure: 코성형
+    severity: 긴급
+    keywords: ["鼻血が止まらない", "鼻からの出血", "鼻血が続く", "ひどい鼻血", "鼻血があふれ"]
+    source: "Belorens — Warning Signs of Complications After Rhinoplasty | https://www.belorens.com/blog/warning-signs-of-complications-after-rhinoplasty/"
+
+  - id: nose_septal_hematoma
+    procedure: 코성형
+    severity: 응급
+    keywords: ["鼻が完全に詰ま", "息ができないほど詰ま", "鼻づまりが急", "中隔が腫れ", "鼻の中が腫れて塞", "両方の鼻が塞が"]
+    source: "Rhinoplasty Archive — Complications in Rhinoplasty (鼻中隔血腫・気道閉塞) | https://www.rhinoplastyarchive.com/articles/rhinoplasty-fundamentals/complications-in-rhinoplasty"
+
+  - id: nose_purulent
+    procedure: 코성형
+    severity: 긴급
+    keywords: ["黄色い鼻水", "悪臭のする鼻水", "膿のような鼻水", "臭い分泌物", "緑色の鼻水", "臭い鼻水"]
+    source: "Berkeley Square Medical — Infection After Rhinoplasty | https://www.berkeleysquaremedical.com/infection-after-rhinoplasty/"
+
+  - id: nose_asymmetry_change
+    procedure: 코성형
+    severity: 긴급
+    keywords: ["鼻が急に曲が", "急に鼻が歪", "鼻の形が急変", "鼻が急に傾"]
+    source: "Belorens — Warning Signs of Complications After Rhinoplasty | https://www.belorens.com/blog/warning-signs-of-complications-after-rhinoplasty/"
+
+  # ── 필러 (注入系) ─────────────────────────────────────────────
+  - id: filler_vascular_occlusion
+    procedure: 필러
+    severity: 응급
+    keywords: ["皮膚が蒼白", "白くなっ", "皮膚が白", "青紫", "紫色に", "まだら", "網目状", "水疱", "皮膚が冷た", "感覚がない", "不均衡な痛み", "どんどん強くなる痛み", "皮膚が青", "真っ白に"]
+    source: "Jane Yoo MD — Filler Vascular Occlusion Warning Signs (蒼白・まだら・水疱・視界異常 = 一刻を争う緊急) | https://www.janeyoomd.com/filler-vascular-occlusion-warning-signs-emergency-treatment-and-why-time-is-critical/ ; Cleveland Clinic — Vascular Occlusion | https://my.clevelandclinic.org/health/diseases/24682-vascular-occlusion"
+
+  - id: filler_vision_change
+    procedure: 필러
+    severity: 응급
+    keywords: ["視界の異常", "視界がぼやけ", "目が見えない", "急に視力", "目の前が真っ暗", "目の周りの痛み", "視野が狭く", "片目が見えな"]
+    source: "Jane Yoo MD — Filler Vascular Occlusion (視界症状 = 失明リスク、直ちに緊急) | https://www.janeyoomd.com/filler-vascular-occlusion-warning-signs-emergency-treatment-and-why-time-is-critical/"
+
+  - id: filler_infection
+    procedure: 필러
+    severity: 긴급
+    keywords: ["注射部位の発赤", "施術部位が腫れて痛", "硬いしこり", "注入部位の膿", "注射跡が化膿"]
+    source: "AestheticMedGuide — Dermal Filler Complications (患者ガイド) | https://aestheticmedguide.com/blog/dermal-filler-complications-patient-guide"

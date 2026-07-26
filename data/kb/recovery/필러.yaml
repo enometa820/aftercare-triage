@@ -1,0 +1,65 @@
+# 필러(주입형 필러) 정상 회복궤적 KB
+#
+# ⚠️ 이것은 "일반 회복 정보"이며 임상 지침·진단·처방이 아니다.
+#    피부과·성형외과의 공개 애프터케어 안내와 공개 의료정보를 종합한 참고용 자료로,
+#    개인차가 크고 실제 판단은 시술한 의료진의 안내가 우선한다.
+# ⚠️ 출처는 병원·학회 공개 안내(ASPS 포함)와 공개 의료정보다. 배포·운영 단계에서는
+#    동료심사 문헌·공식 병원 질환백과로 보강 권장.
+# ⚠️ 필러 특유의 경계 신호(혈관 관련: 창백·심한 통증·청색 변색·시야 이상)는
+#    시술 후 12~24시간 내에도 나타날 수 있어 조기 신호가 특히 중요하다.
+# 용도: 판정 LLM에 "경과일 대비 정상 범위"를 주입 → 궤적을 벗어난 신호는
+#       불확실/레드플래그로 기울이는 근거로만 사용(진단 아님).
+
+procedure: 필러
+disclaimer: 일반 공개 회복 정보 종합이며 임상 지침·진단·처방이 아니다. 개인차가 크므로 실제 판단은 시술한 의료진의 안내가 우선한다.
+
+blocks:
+  - id: 필러-0-2일
+    day_range: [0, 2]
+    label: 0-2일 (부종·멍 정점기)
+    normal_signs:
+      - 부종이 24~48시간에 정점(가장 흔한 반응)
+      - 주사 부위 발적(보통 몇 시간에서 하루 내 완화)
+      - 입술·눈밑 등 혈관이 많은 부위는 멍이 잘 생김
+      - 경미한 압통과 단단한 느낌
+    watch_signs:
+      - 시술 부위나 주변 피부가 하얗게 창백해짐
+      - 주사량·부위에 비해 지나치게 심하거나 점점 커지는 통증
+      - 피부가 청색·자주색으로 얼룩덜룩하게 변색(그물 무늬)
+      - 시야 흐림·복시·시야 결손 등 눈 증상
+      - 물집·비정상적 열감·피부가 검게 칙칙해짐
+    source: ASPS(plasticsurgery.org dermal fillers recovery), myvivaa.com(swelling after fillers), Cleveland Clinic(vascular occlusion), Dr Tim Pearce(early warning signs of vascular occlusion)
+
+  - id: 필러-3-7일
+    day_range: [3, 7]
+    label: 3-7일 (부종 완화·멍 소실기)
+    normal_signs:
+      - 부종이 3~4일째부터 눈에 띄게 완화
+      - 멍이 옅어짐(대개 5~7일 내 상당 부분 소실)
+      - 만졌을 때 약간의 몽우리·단단함이 남을 수 있음
+    watch_signs:
+      - 창백·청색 변색이나 점점 심해지는 통증(지연성 혈관 신호)
+      - 붉고 뜨겁게 붓고 압통·고름을 동반(지연성 염증 신호)
+      - 갑작스러운 단단한 결절과 심한 압통
+    source: ASPS(dermal fillers recovery), lightrx.com(filler aftercare day-by-day), Cleveland Clinic(vascular occlusion)
+
+  - id: 필러-8-14일
+    day_range: [8, 14]
+    label: 8-14일 (약 2주, 멍 완전 소실·정착 시작)
+    normal_signs:
+      - 멍이 대체로 완전히 소실(부위에 따라 최대 2주)
+      - 필러가 자리를 잡아가며 초기 과교정 느낌 완화
+    watch_signs:
+      - 뒤늦게 생기는 압통성 결절·붓기·발적(지연성 반응)
+      - 피부색 변화나 통증 지속
+    source: drkopelman.com(bruising with dermal fillers), myvivaa.com(filler settle timeline)
+
+  - id: 필러-15-90일
+    day_range: [15, 90]
+    label: 2-4주 이후 (필러 완전 정착·최종 형태)
+    normal_signs:
+      - 필러가 완전히 정착해 최종 형태 확인 가능(보통 2~4주)
+      - 초기 부종·멍은 이 시점엔 남아있지 않음
+    watch_signs:
+      - 새로 나타나는 결절·경결·비대칭·염증(지연성 반응 가능)
+    source: myvivaa.com(filler settle timeline), specialistsinplasticsurgery.com(dermal fillers recovery)

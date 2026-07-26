@@ -1,0 +1,72 @@
+# 코성형(비성형) 정상 회복궤적 KB
+#
+# ⚠️ 이것은 "일반 회복 정보"이며 임상 지침·진단·처방이 아니다.
+#    성형외과의 공개 애프터케어 안내와 공개 의료정보를 종합한 참고용 자료로,
+#    개인차가 크고 실제 판단은 시술한 의료진의 안내가 우선한다.
+# ⚠️ 출처는 대부분 병원·클리닉의 공개 안내(2차 자료)다. 배포·운영 단계에서는
+#    동료심사 문헌·공식 병원 질환백과(예: 서울아산병원 질환백과, ASPS)로 보강 권장.
+# 용도: 판정 LLM에 "경과일 대비 정상 범위"를 주입 → 궤적을 벗어난 신호는
+#       불확실/레드플래그로 기울이는 근거로만 사용(진단 아님).
+
+procedure: 코성형
+disclaimer: 일반 공개 회복 정보 종합이며 임상 지침·진단·처방이 아니다. 개인차가 크므로 실제 판단은 시술한 의료진의 안내가 우선한다.
+
+blocks:
+  - id: 코성형-0-2일
+    day_range: [0, 2]
+    label: 0-2일 (급성 부종·부목 착용기)
+    normal_signs:
+      - 코·눈 주위 부종과 멍, 부목(스플린트)·고정 착용 상태
+      - 코막힘과 코로 숨쉬기 어려움
+      - 소량의 맑거나 옅은 핏빛 콧물·삼출(초기 정상)
+      - 뻐근한 통증(처방 진통 범위 내)
+    watch_signs:
+      - 진통제로 조절되지 않고 갑자기 심해지는 통증
+      - 38.3도 이상 지속 발열·오한
+      - 지혈되지 않는 다량 출혈
+    source: MCAN Health(rhinoplasty recovery timeline), Acibadem(rhinoplasty recovery week-by-week), Raadina Health(infection after rhinoplasty)
+
+  - id: 코성형-3-7일
+    day_range: [3, 7]
+    label: 3-7일 (부종 정점 후 감소·부목 제거기)
+    normal_signs:
+      - 3일째 전후로 부종·멍이 정점에 이른 뒤 감소 시작
+      - 눈밑에 보라·파란 변색이 보일 수 있음
+      - 코 부목(스플린트)은 보통 5~7일에 제거
+    watch_signs:
+      - 짙은 노랑·초록·악취 나는 분비물
+      - 발적·부종이 줄지 않고 번지며 열감을 동반
+      - 코·뺨으로 뻗어나가는 붉은 줄무늬
+    source: MCAN Health, specialistsinplasticsurgery.com(rhinoplasty timeline), Belorens/Raadina Health(infection warning signs)
+
+  - id: 코성형-8-14일
+    day_range: [8, 14]
+    label: 8-14일 (약 2주, 붓기 대폭 감소·활동 복귀)
+    normal_signs:
+      - 남은 부종·멍의 약 90%가 눈에 띄게 감소
+      - 사회활동·업무 복귀가 가능한 수준
+      - 코 내부 딱지·건조감이 남을 수 있음
+    watch_signs:
+      - 부종·발적이 다시 심해지거나 새 고름·악취 분비물
+      - 갑작스러운 심한 통증
+    source: Acibadem(rhinoplasty recovery week-by-week), Ward MD(rhinoplasty recovery timeline)
+
+  - id: 코성형-15-30일
+    day_range: [15, 30]
+    label: 15-30일 (3-4주, 부종 정착기)
+    normal_signs:
+      - 부종이 정착되고 멍은 대부분 소실
+      - 코 모양이 점차 잡히기 시작(잔여 부종으로 아직 두툼할 수 있음)
+    watch_signs:
+      - 재발성 부종·발적·열감·분비물
+    source: MCAN Health, drmmacdonald.com(rhinoplasty recovery timeline)
+
+  - id: 코성형-31-180일
+    day_range: [31, 180]
+    label: 1-6개월 (코 모양 선명화·잔여 부종 감소)
+    normal_signs:
+      - 코 모양이 더 선명해지고 잔여 부종이 서서히 감소
+      - 코끝 등 미세 부종은 오래 남을 수 있음(최종 형태는 약 12~18개월)
+    watch_signs:
+      - 수개월째 지속·악화되는 부종·통증·발적, 코막힘 악화
+    source: Acibadem(rhinoplasty recovery week-by-week), emreilhan.com(rhinoplasty recovery timeline)

@@ -11,11 +11,11 @@
 - [ ] **AC-1**: 입력·출력 스키마 (spec §3.1·3.4)
   - [x] **AC-1.1**: `src/sonar_care/schema.py` — Pydantic `PatientInput`(증상 텍스트, 사진경로 optional, 시술종류 `Literal["쌍꺼풀","코성형","필러"]`, 경과일 int, 언어) + `Verdict`(verdict `Literal["정상","불확실","레드플래그"]`, reasons[], kb_refs[], red_flag_matched[])
 - [ ] **AC-2**: 레드플래그 룰 우선 (spec §3.2)
-  - [ ] **AC-2.1**: `data/redflags/ko.yaml`·`ja.yaml` — 시술별 응급 신호 사전(발열·번지는 발적·화농·극심통증·호흡곤란·시야변화·필러 후 피부색변화/극심통증=혈관폐색 등)
-  - [ ] **AC-2.2**: `src/sonar_care/redflags.py` — 언어 감지 → 사전 매칭 → 매칭 시 `red_flag_matched` 반환(이후 LLM 판정과 무관하게 레드플래그 강제)
+  - [x] **AC-2.1**: `data/redflags/ko.yaml`·`ja.yaml` — 시술별 응급 신호 사전(발열·번지는 발적·화농·극심통증·호흡곤란·시야변화·필러 후 피부색변화/극심통증=혈관폐색 등)
+  - [x] **AC-2.2**: `src/sonar_care/redflags.py` — 언어 감지 → 사전 매칭 → 매칭 시 `red_flag_matched` 반환(이후 LLM 판정과 무관하게 레드플래그 강제)
 - [ ] **AC-3**: KB 그라운딩 (spec §3.3)
-  - [ ] **AC-3.1**: `data/kb/recovery/{쌍꺼풀,코성형,필러}.yaml` — 시술별 정상 회복궤적(경과일 구간별 정상 범위) + 공개 출처 인용 필드
-  - [ ] **AC-3.2**: `src/sonar_care/kb.py` — 시술·경과일로 해당 블록 라우팅해 full-context 문자열 + 항목 ID 반환
+  - [x] **AC-3.1**: `data/kb/recovery/{쌍꺼풀,코성형,필러}.yaml` — 시술별 정상 회복궤적(경과일 구간별 정상 범위) + 공개 출처 인용 필드
+  - [x] **AC-3.2**: `src/sonar_care/kb.py` — 시술·경과일로 해당 블록 라우팅해 full-context 문자열 + 항목 ID 반환
   - [x] **AC-3.3** (SKIP→M2, 착수 판정): `src/sonar_care/rag.py` + `data/kb/guidelines/` — 공개 의료 애프터케어 가이드라인 코퍼스 수집 + OSS 임베딩 벡터DB 인덱싱 + 검색·인용 반환 (코퍼스 규모 판단은 execute 착수 시 1줄 확정 — 부족하면 M2로 이동하고 본 AC skip 표기)
 - [ ] **AC-4**: 판정 — 구조화 출력 (spec §3.4)
   - [ ] **AC-4.1**: `src/sonar_care/judge.py` — Claude 호출 + 시스템프롬프트(진단·처방 금지·권위 무력화) + KB/RAG 컨텍스트 주입 + Pydantic `Verdict` 검증·실패 시 retry
@@ -28,7 +28,7 @@
   - [ ] **AC-7.1**: `src/sonar_care/triage.py` — 오케스트레이션(입력→redflags→kb/rag→judge→gate→3-way 출력)
   - [ ] **AC-7.2**: `src/sonar_care/escalation.py` — 레드플래그 시 구조화·번역(한↔일) 클리닉용 요약 생성
 - [ ] **AC-8**: 평가셋 + eval 하네스 (spec §3.8)
-  - [ ] **AC-8.1**: `data/eval/cases.jsonl` — ~90건(쌍꺼풀·코성형·필러 × 정상/불확실/레드플래그 × ~10, 경계 집중, 한+일) + 라벨(가이드라인/룰 유래 + 멀티모델 합의 + 10% 사람 스팟체크 기록)
+  - [x] **AC-8.1**: `data/eval/cases.jsonl` — ~90건(쌍꺼풀·코성형·필러 × 정상/불확실/레드플래그 × ~10, 경계 집중, 한+일) + 라벨(가이드라인/룰 유래 + 멀티모델 합의 + 10% 사람 스팟체크 기록)
   - [ ] **AC-8.2**: `eval/test_triage.py` — DeepEval pytest, 레드플래그 recall 게이트(임계 미달 시 exit non-zero) + 클래스별 precision/recall
   - [ ] **AC-8.3**: `eval/promptfoo.yaml` — 권위 사칭·멀티턴·응급 오도 적대 스위트
 - [ ] **AC-9**: 측정·시각화 (spec §3.9)
