@@ -7,7 +7,7 @@
 """
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 from .config import has_api_key
 from .schema import Language, PatientInput, TriageResult, Verdict

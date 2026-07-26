@@ -23,7 +23,7 @@ def calibrate(rows: list[dict], alpha: float = 0.0, red_min: int = 2) -> dict:
     """놓친 레드플래그율 <= alpha를 만족하는 최소 τ(최대 coverage)를 찾는다."""
     total_red = sum(1 for r in rows if r["gold"] == RED) or 1
     best = None
-    for i in range(0, 21):
+    for i in range(21):
         tau = i / 20
         missed = sum(
             1 for r in rows if r["gold"] == RED and predict_B(r, tau, red_min)[0] == "정상"
@@ -31,10 +31,9 @@ def calibrate(rows: list[dict], alpha: float = 0.0, red_min: int = 2) -> dict:
         fnr = missed / total_red
         abst = sum(1 for r in rows if predict_B(r, tau, red_min)[2])
         cov = (len(rows) - abst) / len(rows)
-        if fnr <= alpha:
-            # 조건 만족 중 coverage 최대(= τ 최소) 선택
-            if best is None or cov > best["coverage"]:
-                best = {"tau": round(tau, 2), "fnr": round(fnr, 3), "coverage": round(cov, 3)}
+        # 조건 만족(FNR<=alpha) 중 coverage 최대(= τ 최소) 선택
+        if fnr <= alpha and (best is None or cov > best["coverage"]):
+            best = {"tau": round(tau, 2), "fnr": round(fnr, 3), "coverage": round(cov, 3)}
     return best or {"tau": 1.0, "fnr": None, "coverage": 0.0}
 
 

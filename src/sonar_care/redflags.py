@@ -13,7 +13,7 @@
 from __future__ import annotations
 
 import re
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
 
 import yaml
@@ -33,7 +33,7 @@ def _normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip().lower()
 
 
-@lru_cache(maxsize=None)
+@cache
 def _load_rules(language: Language) -> tuple[dict, ...]:
     """해당 언어 사전을 로드해 룰 리스트(tuple, 캐시용)로 반환."""
     path = _REDFLAG_DIR / f"{language.value}.yaml"

@@ -88,7 +88,7 @@ def summary(rows: list[dict], tau: float = 0.6, red_min: int = 2) -> dict:
 def rc_points(rows: list[dict], red_min: int = 2) -> list[dict]:
     """τ를 0→1로 쓸며 (coverage, risk=답한 것 중 오류율, 놓친 레드) 산출."""
     out = []
-    for i in range(0, 21):
+    for i in range(21):
         tau = i / 20
         answered, errors, missed_red = 0, 0, 0
         for r in rows:

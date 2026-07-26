@@ -9,7 +9,7 @@ Claude에게 KB 회복궤적을 근거로 주고 3-way(정상/불확실/레드�
 from __future__ import annotations
 
 import json
-from typing import Callable
+from collections.abc import Callable
 
 from pydantic import ValidationError
 

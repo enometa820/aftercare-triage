@@ -27,16 +27,16 @@ def _ensure_key() -> None:
         return
     vault = Path.home() / ".vault" / "enometa-distill" / ".env.local"
     if vault.exists():
-        m = re.search(r"^ANTHROPIC_API_KEY=(.+)$", vault.read_text(encoding="utf-8"), re.M)
+        m = re.search(r"^ANTHROPIC_API_KEY=(.+)$", vault.read_text(encoding="utf-8"), re.MULTILINE)
         if m:
             os.environ["ANTHROPIC_API_KEY"] = m.group(1).strip().strip('"').strip("'")
 
 
 _ensure_key()
 
-from sonar_care.config import has_api_key  # noqa: E402
-from sonar_care.schema import Language, PatientInput, Procedure  # noqa: E402
-from sonar_care.triage import triage  # noqa: E402
+from sonar_care.config import has_api_key
+from sonar_care.schema import Language, PatientInput, Procedure
+from sonar_care.triage import triage
 
 app = FastAPI(title="Sonar Care — 측정된 안전 사후케어 트리아지")
 DOCS = ROOT / "docs"

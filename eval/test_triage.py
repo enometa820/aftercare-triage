@@ -20,8 +20,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "eval"))
 
-from sonar_care.schema import Judgment, Language, PatientInput, Procedure, Verdict  # noqa: E402
-from sonar_care.triage import triage  # noqa: E402
+from sonar_care.schema import Judgment, Language, PatientInput, Procedure, Verdict
+from sonar_care.triage import triage
 
 RESULTS = ROOT / "data" / "eval" / "results.jsonl"
 MAX_MISSED_REDFLAG = 0  # CI 게이트: 놓친 레드플래그 허용 0

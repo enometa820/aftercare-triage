@@ -33,7 +33,7 @@ def _ensure_key() -> None:
         return
     vault = Path.home() / ".vault" / "enometa-distill" / ".env.local"
     if vault.exists():
-        m = re.search(r"^ANTHROPIC_API_KEY=(.+)$", vault.read_text(encoding="utf-8"), re.M)
+        m = re.search(r"^ANTHROPIC_API_KEY=(.+)$", vault.read_text(encoding="utf-8"), re.MULTILINE)
         if m:
             os.environ["ANTHROPIC_API_KEY"] = m.group(1).strip().strip('"').strip("'")
 
@@ -110,12 +110,11 @@ def main() -> None:
     print(f"평가 대상 {len(cases)}건 중 미완 {len(todo)}건 (k={args.k}) 실행")
 
     RESULTS.parent.mkdir(parents=True, exist_ok=True)
-    with RESULTS.open("a", encoding="utf-8") as out:
-        with ThreadPoolExecutor(max_workers=args.workers) as ex:
-            for res in ex.map(lambda c: _run_case(c, args.k), todo):
-                out.write(json.dumps(res, ensure_ascii=False) + "\n")
-                out.flush()
-                print(f"  [{res['id']}] gold={res['gold']} rule={bool(res['rule_matched'])} raw={res['raw_verdicts']}")
+    with RESULTS.open("a", encoding="utf-8") as out, ThreadPoolExecutor(max_workers=args.workers) as ex:
+        for res in ex.map(lambda c: _run_case(c, args.k), todo):
+            out.write(json.dumps(res, ensure_ascii=False) + "\n")
+            out.flush()
+            print(f"  [{res['id']}] gold={res['gold']} rule={bool(res['rule_matched'])} raw={res['raw_verdicts']}")
     print(f"완료 → {RESULTS}")
 
 

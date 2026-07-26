@@ -7,7 +7,7 @@
 """
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 from .config import SETTINGS
 from .escalation import build_escalation, build_reassurance
@@ -66,4 +66,4 @@ def triage(
     return result
 
 
-__all__ = ["triage", "SETTINGS"]
+__all__ = ["SETTINGS", "triage"]

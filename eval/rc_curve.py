@@ -11,9 +11,8 @@ from pathlib import Path
 import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-
-from metrics import load_results, predict_A, rc_points, summary  # noqa: E402
+import matplotlib.pyplot as plt
+from metrics import load_results, predict_A, rc_points, summary
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_PNG = ROOT / "docs" / "measured-safety.png"
