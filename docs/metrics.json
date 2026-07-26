@@ -1,143 +1,144 @@
 {
   "summary": {
-    "n": 18,
-    "total_red": 6,
+    "n": 90,
+    "total_red": 30,
     "A_missed_red": 0,
     "A_red_recall": 1.0,
     "B_missed_red": 0,
     "B_red_recall": 1.0,
-    "B_coverage": 0.833,
-    "B_abstained": 3,
-    "B_acc_on_answered": 0.733,
+    "B_coverage": 0.756,
+    "B_abstained": 22,
+    "B_acc_on_answered": 0.824,
+    "B_ece": 0.182,
     "tau": 0.6,
     "red_min": 2
   },
-  "A_error_rate": 0.222,
+  "A_error_rate": 0.144,
   "rc_points": [
     {
       "tau": 0.0,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.05,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.1,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.15,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.2,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.25,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.3,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.35,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.4,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.45,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.5,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.55,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.6,
-      "coverage": 0.833,
-      "risk": 0.267,
+      "coverage": 0.756,
+      "risk": 0.176,
       "missed_red": 0
     },
     {
       "tau": 0.65,
-      "coverage": 0.778,
-      "risk": 0.286,
+      "coverage": 0.744,
+      "risk": 0.179,
       "missed_red": 0
     },
     {
       "tau": 0.7,
-      "coverage": 0.778,
-      "risk": 0.286,
+      "coverage": 0.744,
+      "risk": 0.179,
       "missed_red": 0
     },
     {
       "tau": 0.75,
-      "coverage": 0.778,
-      "risk": 0.286,
+      "coverage": 0.744,
+      "risk": 0.179,
       "missed_red": 0
     },
     {
       "tau": 0.8,
-      "coverage": 0.778,
-      "risk": 0.286,
+      "coverage": 0.744,
+      "risk": 0.179,
       "missed_red": 0
     },
     {
       "tau": 0.85,
-      "coverage": 0.778,
-      "risk": 0.286,
+      "coverage": 0.744,
+      "risk": 0.179,
       "missed_red": 0
     },
     {
       "tau": 0.9,
-      "coverage": 0.778,
-      "risk": 0.286,
+      "coverage": 0.744,
+      "risk": 0.179,
       "missed_red": 0
     },
     {
       "tau": 0.95,
-      "coverage": 0.778,
-      "risk": 0.286,
+      "coverage": 0.744,
+      "risk": 0.179,
       "missed_red": 0
     },
     {
       "tau": 1.0,
-      "coverage": 0.778,
-      "risk": 0.286,
+      "coverage": 0.744,
+      "risk": 0.179,
       "missed_red": 0
     }
   ]

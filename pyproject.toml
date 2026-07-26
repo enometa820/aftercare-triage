@@ -3,30 +3,24 @@ name = "sonar-care"
 version = "0.1.0"
 description = "Sonar Care — 성형·피부 시술 후 안전 트리아지 모듈 (측정된 안전: 못 믿을 때 사람에게 넘긴다)"
 requires-python = ">=3.11"
+# core = 실제로 import하는 것만 선언(정직 — 선언-미사용 0).
 dependencies = [
-    "anthropic>=0.40",
-    "pydantic>=2.7",
-    "pydantic-settings>=2.2",
-    "langchain-anthropic>=0.2",   # uqlm이 LangChain Chat Model을 받으므로 Claude 래핑
-    "uqlm>=0.1",                  # black-box 불확실성 게이트(self-consistency·semantic entropy)
-    "mapie>=1.0",                 # 컨포멀 임계값·Conformal Risk Control(레드플래그 FNR 상한)
-    "scikit-learn>=1.4",
+    "anthropic>=0.40",            # 판정 LLM(claude-sonnet-5)
+    "pydantic>=2.7",              # 3-way 구조화 출력 검증
     "numpy>=1.26",
     "matplotlib>=3.8",            # RC 곡선·ECE 시각화
     "pyyaml>=6.0",                # KB·레드플래그 사전
     "fastapi>=0.110",
     "uvicorn>=0.29",
-    "jinja2>=3.1",
-    "python-multipart>=0.0.9",    # 사진 업로드
 ]
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=8.0",
-    "deepeval>=1.0",              # eval 하네스(pytest-native, CI 게이트)
-    "ruff>=0.4",
-]
-# 참고: promptfoo(레드팀)·OSS 임베딩은 별도 — promptfoo는 npx, 임베딩은 sentence-transformers(선택)
+dev = ["pytest>=8.0", "ruff>=0.4"]
+# research = 프로덕션 승격 시 네이티브 구현의 대체 경로. 데모는 심플함 우선으로 직접 구현:
+#   uqlm(black-box 불확실성) → gate.py self-consistency 네이티브 / mapie(컨포멀 CRC) → calibrate.py 네이티브
+#   deepeval → test_triage.py plain pytest exact-match(BP: 이산 라벨은 결정론 채점 1순위) / promptfoo → npx(eval/promptfoo.yaml)
+# 이 확장은 아직 코드가 import하지 않는다(선언만 하지 않기 위해 optional로 분리).
+research = ["uqlm>=0.1", "mapie>=1.0", "langchain-anthropic>=0.2", "scikit-learn>=1.4", "deepeval>=1.0"]
 
 [build-system]
 requires = ["hatchling"]

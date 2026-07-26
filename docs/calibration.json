@@ -2,10 +2,10 @@
   "method": "Conformal Risk Control (Learn-Then-Test 원리, MAPIE 등가) — 직접 구현",
   "target_alpha_missed_redflag": 0.0,
   "selected": {
-    "tau": 0.6,
+    "tau": 0.0,
     "fnr": 0.0,
-    "coverage": 0.833
+    "coverage": 0.756
   },
-  "n": 18,
+  "n": 90,
   "caveat": "실측 서브셋 n이 작아 통계적 '보장'이 아닌 경험적 선택. 전체 실행 시 MAPIE/CRC로 승격."
 }

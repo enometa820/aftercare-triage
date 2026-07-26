@@ -67,17 +67,29 @@ def gate(
     conf = top_count / k
     rep = next(j for j in samples if j.verdict == top_verdict)
 
-    if top_verdict == Verdict.정상 and conf < threshold:
+    if top_verdict == Verdict.정상:
         # 정상은 고확신을 요구 — 미달이면 사람에게 넘긴다.
-        return (
-            Judgment(
-                verdict=Verdict.불확실,
-                reasons=[f"정상 확신 부족(consistency {conf:.2f} < {threshold})"] + rep.reasons,
-                kb_refs=rep.kb_refs,
-            ),
-            conf,
-            True,
-        )
+        if conf < threshold:
+            return (
+                Judgment(
+                    verdict=Verdict.불확실,
+                    reasons=[f"정상 확신 부족(consistency {conf:.2f} < {threshold})"] + rep.reasons,
+                    kb_refs=rep.kb_refs,
+                ),
+                conf,
+                True,
+            )
+        # F1 인용 강제: 정상 판정인데 KB 근거 인용이 없으면 신뢰 불가 → 기권.
+        if not rep.kb_refs:
+            return (
+                Judgment(
+                    verdict=Verdict.불확실,
+                    reasons=["정상 판정이나 KB 근거 인용 없음 — 근거 없는 안심 금지, 사람에게"] + rep.reasons,
+                    kb_refs=[],
+                ),
+                conf,
+                True,
+            )
 
     if top_verdict == Verdict.불확실:
         return (rep, conf, True)

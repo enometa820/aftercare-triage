@@ -41,16 +41,17 @@ def main() -> None:
     ax1.grid(alpha=0.3)
     ax1.legend(fontsize=8)
 
-    # 우: 놓친 레드플래그(치명 FN) A vs B.
-    labels = ["A: no gate", f"B: gate (tau={summ['tau']})"]
-    missed = [summ["A_missed_red"], summ["B_missed_red"]]
-    bars = ax2.bar(labels, missed, color=["crimson", "steelblue"])
-    ax2.set_ylabel("Missed red-flags (gold=RED predicted NORMAL)")
-    ax2.set_title(f"Missed red-flags  (total red={summ['total_red']}, n={summ['n']})")
+    # 우: 게이트의 실제 값 = 모호구간 기권으로 '답한 것' 정확도↑ (놓친 레드플래그는 A·B 모두 0 = 룰이 이미 잡음).
+    a_acc = sum(1 for r in rows if predict_A(r)[0] == r["gold"]) / len(rows)
+    labels = ["A: commit-all\n(acc, all cases)", f"B: gated\n(acc on answered,\ncov={summ['B_coverage']})"]
+    accs = [round(a_acc, 3), summ["B_acc_on_answered"]]
+    bars = ax2.bar(labels, accs, color=["crimson", "steelblue"])
+    ax2.set_ylabel("Accuracy")
+    ax2.set_title(f"Gate value = defer ambiguous → higher answered acc\n(missed red-flags A={summ['A_missed_red']} B={summ['B_missed_red']}, red={summ['total_red']}, n={summ['n']})")
     ax2.bar_label(bars)
-    ax2.set_ylim(0, max(3, max(missed) + 1))
+    ax2.set_ylim(0, 1.0)
 
-    fig.suptitle("Sonar Care — Measured Safety (real Claude run, synthetic labeled subset)", fontsize=11)
+    fig.suptitle(f"Sonar Care — Measured Safety (real Claude, n={summ['n']} synthetic labeled cases, ECE={summ['B_ece']})", fontsize=11)
     fig.tight_layout()
     OUT_PNG.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT_PNG, dpi=130)

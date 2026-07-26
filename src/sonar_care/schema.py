@@ -52,7 +52,5 @@ class TriageResult(BaseModel):
     red_flag_matched: list[str] = Field(default_factory=list, description="결정론 룰 매칭 결과")
     reassurance: str | None = Field(None, description="정상 시 다국어 안심·안내 메시지")
     escalation_summary: str | None = Field(None, description="레드플래그/기권 시 의사용 구조화·번역 요약")
-
-    @property
-    def image_note(self) -> str:
-        return ""  # (AC-6에서 이미지 신뢰도 주석 채움)
+    image_note: str | None = Field(None, description="이미지 융합 주석(F6): 텍스트-only 판정과의 일치/상이")
+    output_flagged: list[str] = Field(default_factory=list, description="출력 가드(F2)가 걸러낸 진단·처방 패턴")

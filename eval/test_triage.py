@@ -88,3 +88,35 @@ def test_results_schema_valid():
     for r in rows:
         assert r["gold"] in valid
         assert all(v in valid for v in r["raw_verdicts"])
+
+
+# ---- 3) 회차2 수정 불변식 (F1·F2·F6, 무키) ----
+
+def test_f1_citation_enforced():
+    # 정상 다수결이지만 KB 근거 인용이 비면 → 불확실로 강등(근거 없는 안심 금지).
+    r = triage(PatientInput(symptom_text="괜찮은 것 같아요", procedure=Procedure.코성형,
+                            days_since=5, language=Language.ko),
+               k=5, sample_fn=lambda: Judgment(verdict=Verdict.정상, reasons=["정상"], kb_refs=[]))
+    assert r.verdict == Verdict.불확실 and r.abstained
+
+
+def test_f2_output_guard_blocks_prescription():
+    from sonar_care.output_guard import enforce
+    safe, hits = enforce("항생제를 복용하세요. 하루 500mg.", "ko")
+    assert hits and "복용하세요" not in safe and "500mg" not in safe
+    # 파이프라인: 정상인데 안심 문구에 처방이 섞이면 안전 문구로 대체 + 플래그.
+    r = triage(PatientInput(symptom_text="붓기 조금", procedure=Procedure.코성형, days_since=5, language=Language.ko),
+               k=5,
+               sample_fn=lambda: Judgment(verdict=Verdict.정상, reasons=["정상"], kb_refs=["코성형-3-7일"]),
+               reassurance_fn=lambda s, u: "항생제를 복용하세요")
+    assert r.output_flagged and "항생제" not in (r.reassurance or "")
+
+
+def test_f6_image_fusion_defers_on_disagreement():
+    # 텍스트-only 판정(레드플래그)이 게이트(정상)와 다르면 → 이미지 불확실성↑ → 정상 강등·기권.
+    r = triage(PatientInput(symptom_text="약간 부었어요", procedure=Procedure.코성형, days_since=5,
+                            language=Language.ko, photo_path="dummy.png"),
+               k=5,
+               sample_fn=lambda: Judgment(verdict=Verdict.정상, reasons=["정상"], kb_refs=["코성형-3-7일"]),
+               text_only_verdict=Verdict.레드플래그)
+    assert r.verdict == Verdict.불확실 and r.abstained and r.image_note and "달라" in r.image_note

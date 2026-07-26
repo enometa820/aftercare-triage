@@ -1,0 +1,23 @@
+name: ci
+# F4 — CI 게이트. lint + eval(레드플래그 recall) 자동 실행. results.jsonl 커밋본을 결정론 채점(무키).
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install
+        run: |
+          python -m pip install -U pip
+          pip install ruff pytest pydantic pyyaml numpy matplotlib
+      - name: lint (ruff)
+        run: ruff check src eval app
+      - name: eval gate (pytest — 레드플래그 recall, 무키 결정론)
+        run: python -m pytest eval/test_triage.py -q

@@ -12,7 +12,9 @@ from collections.abc import Callable
 from .config import SETTINGS
 from .escalation import build_escalation, build_reassurance
 from .gate import gate
+from .judge import judge_once
 from .kb import route_kb
+from .output_guard import enforce
 from .redflags import match_redflags
 from .schema import Judgment, PatientInput, TriageResult, Verdict
 
@@ -25,6 +27,7 @@ def triage(
     sample_fn: Callable[[], Judgment] | None = None,
     escalation_fn: Callable[[str, str], str] | None = None,
     reassurance_fn: Callable[[str, str], str] | None = None,
+    text_only_verdict: Verdict | None = None,
 ) -> TriageResult:
     # 1) rules-first — 결정론 응급/이상 신호. 매칭 시 즉시 레드플래그.
     matched = match_redflags(inp.symptom_text, inp.language, inp.procedure)
@@ -37,7 +40,8 @@ def triage(
             kb_refs=[],
             red_flag_matched=matched,
         )
-        result.escalation_summary = build_escalation(inp, result, call_fn=escalation_fn)
+        summary = build_escalation(inp, result, call_fn=escalation_fn)
+        result.escalation_summary, result.output_flagged = enforce(summary, inp.language.value)
         return result
 
     # 2) KB 라우팅 — 경과일 대비 정상 회복궤적 근거.
@@ -57,11 +61,26 @@ def triage(
         red_flag_matched=[],
     )
 
-    # 4) 3-way 출력.
+    # 3.5) F6 이미지 비대칭 융합 — 사진이 있으면 텍스트-only 판정과 비교, 상이하면 불확실성↑.
+    if inp.photo_path or text_only_verdict is not None:
+        to_v = text_only_verdict
+        if to_v is None:
+            to_v = judge_once(inp, kb_context, kb_ids, include_image=False).verdict
+        if to_v != result.verdict:
+            result.image_note = f"이미지가 텍스트-only 판정({to_v.value})과 달라 불확실성↑ — defer 가중"
+            if result.verdict == Verdict.정상:  # 비대칭: 이미지가 정상 확신을 흔들면 사람에게
+                result.verdict = Verdict.불확실
+                result.abstained = True
+        else:
+            result.image_note = "이미지·텍스트 판정 일치"
+
+    # 4) 3-way 출력 (+ F2 출력 가드).
     if result.verdict == Verdict.정상:
-        result.reassurance = build_reassurance(inp, kb_context, result, call_fn=reassurance_fn)
+        msg = build_reassurance(inp, kb_context, result, call_fn=reassurance_fn)
+        result.reassurance, result.output_flagged = enforce(msg, inp.language.value)
     else:  # 불확실 / 레드플래그 → 의사에게
-        result.escalation_summary = build_escalation(inp, result, call_fn=escalation_fn)
+        msg = build_escalation(inp, result, call_fn=escalation_fn)
+        result.escalation_summary, result.output_flagged = enforce(msg, inp.language.value)
 
     return result
 

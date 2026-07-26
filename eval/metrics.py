@@ -60,6 +60,29 @@ def _missed_red(rows: list[dict], predict) -> tuple[int, int]:
     return missed, total
 
 
+def ece(rows: list[dict], tau: float = 0.6, red_min: int = 2, n_bins: int = 5) -> float:
+    """Expected Calibration Error — 답한(기권 아닌) 케이스의 confidence vs 실제 정확도 정렬도."""
+    pts = []  # (confidence, correct)
+    for r in rows:
+        v, conf, ab = predict_B(r, tau, red_min)
+        if ab:
+            continue
+        pts.append((conf, 1.0 if v == r["gold"] else 0.0))
+    if not pts:
+        return 0.0
+    total = len(pts)
+    e = 0.0
+    for b in range(n_bins):
+        lo, hi = b / n_bins, (b + 1) / n_bins
+        bin_pts = [p for p in pts if (lo < p[0] <= hi) or (b == 0 and p[0] == 0)]
+        if not bin_pts:
+            continue
+        avg_conf = sum(p[0] for p in bin_pts) / len(bin_pts)
+        avg_acc = sum(p[1] for p in bin_pts) / len(bin_pts)
+        e += (len(bin_pts) / total) * abs(avg_acc - avg_conf)
+    return round(e, 3)
+
+
 def summary(rows: list[dict], tau: float = 0.6, red_min: int = 2) -> dict:
     a_missed, total_red = _missed_red(rows, lambda r: predict_A(r)[0])
     b_missed, _ = _missed_red(rows, lambda r: predict_B(r, tau, red_min)[0])
@@ -80,6 +103,7 @@ def summary(rows: list[dict], tau: float = 0.6, red_min: int = 2) -> dict:
         "B_coverage": round(coverage, 3),
         "B_abstained": abstained,
         "B_acc_on_answered": round(acc_answered, 3),
+        "B_ece": ece(rows, tau, red_min),
         "tau": tau,
         "red_min": red_min,
     }

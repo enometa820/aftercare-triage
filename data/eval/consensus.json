@@ -1,0 +1,14 @@
+{
+  "labeler_model": "claude-haiku-4-5-20251001",
+  "judge_model": "claude-sonnet-5 (독립)",
+  "n": 15,
+  "agreement_rate": 0.933,
+  "note": "규칙유래 gold vs 독립 2차 모델. 완전 자기라벨 아님(defense #2). 불일치는 사람 리뷰 대상.",
+  "disagreements": [
+    {
+      "id": "ac8-no-u-03",
+      "gold": "불확실",
+      "independent": "레드플래그"
+    }
+  ]
+}

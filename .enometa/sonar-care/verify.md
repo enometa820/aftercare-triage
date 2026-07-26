@@ -59,5 +59,30 @@
 | PII·회사약점 격리 | ✓ | `조사-회사-모아씨앤씨.md`·`_local/` gitignore, 공개 레포엔 미반입 |
 | 공개 문서 정제 | ✓ | 개인정보(고졸·경력)·전술 프레이밍은 `_local/전략.md`로 분리(이전 커밋) |
 
-### Phase 3 — Adversarial subagent
-(verify-adv 디스패치됨 — 격리 컨텍스트에서 spec §3 대 git diff 대조 진행 중. 결과 도착 시 아래 갱신)
+### Phase 3 — Adversarial subagent (verify-adv, 격리)
+판정 = **실패.** 코어(rules-first triage.py:30-41·self-consistency gate.py:51-85)·정직 가드(출처 실URL·"합성/경험적" 정직표기·진단처방 미출력)는 실물 통과. 그러나 다음이 선언·계획에 그침:
+| 갭 | 판정 | 근거 |
+|---|---|---|
+| 인용 강제(3) | ✗ 겉핥기 | 빈 kb_refs 미차단(프롬프트 권고뿐) |
+| 진단·처방 출력필터(4) | △ | 시스템프롬프트만, reasons[] 결정론 필터 0 |
+| uqlm·MAPIE(5) | ✗ 미사용 | pyproject 선언·import 0(네이티브 재구현) |
+| 이미지 defer(6) | ✗ 겉핥기 | 이미지 신뢰도 계산 0, image_note 빈 stub, 평가서 photo 0회 |
+| 라벨 자기확증 회피(8) | ✗ | 3중 방어 중 규칙유래 1중만 실행 |
+| DeepEval CI 배선(8) | ✗ | .github/workflows 부재, pytest skip 가능 |
+| A/B 놓침개선(9) | △ 미입증 | 서브셋18 A·B 모두 놓침0 → "게이트가 위험 줄인다" 미입증 |
+| ECE(9) | ✗ 누락 | 전역 grep 0, FNR만 산출 |
+스코프 이탈 = 없음(RAG→M2는 정당). 날조·허위주장 = 없음.
+
+## 종합 판정 — 회차 1: **실패**
+1개 이상 ✗ → 실패. 자동 재실행(회차 ≤ 3) 진입.
+
+### 회차 2 실패 분석·수정 계획
+- F1 인용 강제: 정상 verdict인데 kb_refs 비면 불확실로 강등(gate/triage 후처리).
+- F2 출력 가드: reasons·안심·에스컬에 진단·처방 표현 결정론 필터.
+- F3 ECE: metrics.py에 ECE 계산 + rc_curve 표기.
+- F4 CI: `.github/workflows/ci.yml`(ruff+pytest 레드플래그 recall 게이트).
+- F5 MAPIE 실사용: calibrate.py를 MAPIE(sklearn 컨포멀)로 실배선. uqlm은 core dep 제거·optional/참조로 정직화.
+- F6 이미지 fusion 실구현: 텍스트-only vs 이미지포함 판정 비교→불일치/저신뢰 시 defer, image_note 채움. 이미지 평가셋은 합성 photo 필요라 정직 범위표기.
+- F7 라벨 합의: 독립 2차 모델(예: 다른 모델)로 서브셋 재라벨→합의율 기록(자기확증 회피 defense #2 실행).
+- F8 A/B 재측정·재프레이밍: 전체 90건 실행 + 게이트 가치를 데이터가 보이는 대로 정직 서술(레드플래그는 rules-first가 이미 잡음 → 게이트 값은 모호구간 기권). 미입증을 과장 안 함.
+
