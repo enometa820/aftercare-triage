@@ -36,7 +36,30 @@
 
 ## 상태
 
-기획·조사 완료 → 명세·구현·피치덱·데모 진행 예정.
+M1(Sonar Care)·M2(Sonar Scan) **구현·우로보로스 verify 완료**(각 spec→plan→execute→verify, `.enometa/` 트레일 공개). 다음 = 피치덱.
+
+## QUICKSTART (5분)
+
+```bash
+git clone https://github.com/enometa820/sonar   # (구 aftercare-triage)
+cd sonar
+uv venv .venv && uv pip install --python .venv -e .        # core deps
+# 판정 LLM을 쓰려면 키 필요(데모/실행):  export ANTHROPIC_API_KEY=...
+
+# 테스트(무키·결정론) — M1+M2 전체
+.venv/Scripts/python -m pytest eval/test_triage.py eval_scan/test_scan.py -q
+
+# M1 데모(웹, 키 필요): http://localhost:8000
+.venv/Scripts/python -m uvicorn app.main:app
+# M1 측정 재현(A/B 곡선·ECE): 실측 실행 후 그래프 생성
+.venv/Scripts/python eval/run_eval.py --k 5   # (키 필요, results.jsonl)
+.venv/Scripts/python eval/rc_curve.py         # docs/measured-safety.png
+
+# M2 인텔 재현: 네이버 view 실크롤 → 익명 인텔 → 대시보드
+.venv/Scripts/python eval_scan/run_scan.py    # (키 필요) data/scan/scan_result.json
+.venv/Scripts/python -c "import sys;sys.path.insert(0,'src');from sonar_scan.report import build;build()"  # docs/scan-dashboard.html
+```
+무키에서도 pytest(주입 LLM·캐시 소비)·대시보드 렌더는 동작. 실 판정·크롤만 키·네트워크 필요.
 
 ## 정직성
 

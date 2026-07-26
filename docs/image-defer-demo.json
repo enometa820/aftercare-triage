@@ -1,0 +1,7 @@
+{
+  "note": "도식 합성 이미지(실제 의료영상 아님)로 멀티모달 defer 경로 기계 검증. 비임상 이미지라 VLM 불확실→게이트 defer 경향.",
+  "image": "data/eval/images/schematic_dark.png",
+  "verdict": "정상",
+  "abstained": false,
+  "image_note": "이미지·텍스트 판정 일치"
+}
