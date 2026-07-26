@@ -18,9 +18,11 @@ FORMULA = (
 
 def compute(mentions: list[dict]) -> list[ReputationScore]:
     by: dict[str, list[str]] = defaultdict(list)
+    topics_by: dict[str, list[str]] = defaultdict(list)
     for m in mentions:
         if m.get("clinic"):
             by[m["clinic"]].append(m.get("sentiment", "중립"))
+            topics_by[m["clinic"]].extend(t for t in (m.get("topics") or []) if t)
     if not by:
         return []
     max_mention = max(len(v) for v in by.values()) or 1
@@ -30,12 +32,23 @@ def compute(mentions: list[dict]) -> list[ReputationScore]:
         total = len(sents)
         sent_score = ((c.get("긍정", 0) - c.get("부정", 0)) / max(1, total) + 1) / 2  # 0~1
         composite = 0.6 * (len(sents) / max_mention) + 0.4 * sent_score
+        top_topics = [t for t, _ in Counter(topics_by[cid]).most_common(3)]
         rows.append(ReputationScore(
             clinic_id=cid, composite=round(composite, 3), rank=0,
             sentiment_dist={"긍정": c.get("긍정", 0), "중립": c.get("중립", 0), "부정": c.get("부정", 0)},
-            review_count=total,
+            review_count=total, top_topics=top_topics,
         ))
     rows.sort(key=lambda r: r.composite, reverse=True)
     for i, r in enumerate(rows, 1):
         r.rank = i
     return rows
+
+
+def topic_summary(mentions: list[dict]) -> dict[str, int]:
+    """전체 토픽 빈도(강·약점 신호 요약)."""
+    c: Counter = Counter()
+    for m in mentions:
+        for t in m.get("topics") or []:
+            if t:
+                c[t] += 1
+    return dict(c.most_common(12))

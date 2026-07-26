@@ -54,7 +54,8 @@ def main() -> None:
             hook=(anon.scrub(r.get("hook")) or "")[:200], offer=anon.scrub(r.get("offer")),
             channel=r.get("channel"), category=r.get("category"), source="네이버 view(공개)",
         ).model_dump())
-    mentions_anon = [{"clinic": anon.anon(m.get("clinic")), "sentiment": m.get("sentiment", "중립")}
+    mentions_anon = [{"clinic": anon.anon(m.get("clinic")), "sentiment": m.get("sentiment", "중립"),
+                      "topics": m.get("topics") or []}
                      for m in raw["mentions"] if m.get("clinic")]
     anon.save()
 
@@ -64,13 +65,17 @@ def main() -> None:
                               evidence_signals=h.get("evidence_signals", []) or []).model_dump()
             for h in hyps_raw]
 
-    our = rep[len(rep) // 2].clinic_id if rep else None  # 데모 기준점(중앙값 익명 대역)
+    from datetime import datetime
+
+    our = rep[len(rep) // 2].clinic_id if rep else None  # 데모 기준점(익명 대역, 플레이스홀더)
     result = ScanResult(
         refs=[MarketingRef(**r) for r in refs_anon],
         hypotheses=[SuccessHypothesis(**h) for h in hyps],
         reputation=[ReputationScore(**r.model_dump()) for r in rep],
+        topic_summary=reputation.topic_summary(mentions_anon),
         our_clinic_id=our, formula=reputation.FORMULA,
-        collection_note=note + f" 익명 클리닉 {len(rep)}곳·레퍼런스 {len(refs_anon)}건·가설 {len(hyps)}건. 성공요인=가설, 순위=투명지수(공식 아님), 리뷰어 PII 0.",
+        collected_at=datetime.now().astimezone().isoformat(timespec="minutes"),
+        collection_note=note + f" 익명 클리닉 {len(rep)}곳·레퍼런스 {len(refs_anon)}건·가설 {len(hyps)}건. 성공요인=가설, 순위=투명지수(공식 아님), 리뷰어 PII 0. our_clinic_id=데모 플레이스홀더.",
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(result.model_dump_json(indent=2), encoding="utf-8")

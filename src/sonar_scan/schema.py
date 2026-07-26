@@ -15,16 +15,6 @@ class Sentiment(str, Enum):
     부정 = "부정"
 
 
-class ClinicSignal(BaseModel):
-    """한 클리닉의 수집된 공개 신호(집계값 + 익명)."""
-    clinic_id: str = Field(..., description="익명 id 예: Clinic A")
-    source: str = Field(..., description="수집 공개 소스 URL/이름")
-    review_count: int = 0
-    avg_rating: float | None = None
-    mention_count: int = 0
-    review_texts: list[str] = Field(default_factory=list, description="감성·토픽용(리뷰어 PII 제거)")
-
-
 class MarketingRef(BaseModel):
     """경쟁사 마케팅·프로모션에서 추출한 레퍼런스."""
     clinic_id: str
@@ -50,6 +40,7 @@ class ReputationScore(BaseModel):
     rank: int = Field(..., description="수집셋 내 상대순위(1=최상)")
     sentiment_dist: dict[str, int] = Field(default_factory=dict, description="긍/중/부 카운트")
     review_count: int = 0
+    top_topics: list[str] = Field(default_factory=list, description="이 클리닉 언급의 상위 토픽(강·약점)")
 
 
 class ScanResult(BaseModel):
@@ -57,6 +48,8 @@ class ScanResult(BaseModel):
     refs: list[MarketingRef] = Field(default_factory=list)
     hypotheses: list[SuccessHypothesis] = Field(default_factory=list)
     reputation: list[ReputationScore] = Field(default_factory=list)
-    our_clinic_id: str | None = Field(None, description="'우리 병원' 익명 대역 기준점")
+    topic_summary: dict[str, int] = Field(default_factory=dict, description="전체 토픽 빈도(강·약점 신호)")
+    our_clinic_id: str | None = Field(None, description="'우리 병원' 익명 대역 기준점(데모 플레이스홀더)")
     formula: str = Field("", description="평판 지수 산출식(투명 공개)")
+    collected_at: str = Field("", description="수집 시각(ISO)")
     collection_note: str = Field("", description="수집 소스·건수·봇벽 등 정직 로그")

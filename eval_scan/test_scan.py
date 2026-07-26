@@ -70,3 +70,12 @@ def test_public_output_hypothesis_and_transparency():
     assert d["formula"] and "공식 순위" in d["formula"]              # 투명·공식아님 명시
     assert "PII 0" in d["collection_note"]                            # 정직 로그
     assert all(r["clinic_id"].startswith("Clinic") or r["clinic_id"] == "미상" for r in d["reputation"])
+
+
+def test_topics_and_timestamp_present():
+    if not SCAN.exists():
+        pytest.skip("scan_result.json 없음")
+    d = json.loads(SCAN.read_text(encoding="utf-8"))
+    assert d.get("collected_at")  # 수집시각(§3-8)
+    has_topics = bool(d.get("topic_summary")) or any(r.get("top_topics") for r in d["reputation"])
+    assert has_topics  # 토픽 추출(§3-5)
