@@ -44,8 +44,8 @@ north star: 모아씨앤씨의 성형·피부 크로스보더 사후케어 문�
 - [x] **M1 Sonar Care** 구현 + 우로보로스 verify 통과(회차2). `.enometa/sonar-care/`
 - [x] **M2 Sonar Scan** 구현 + 우로보로스 verify 통과(회차2). `.enometa/sonar-scan/`
 - [x] 마감: QUICKSTART·데모 워크스루 대본·이미지 defer 검증·repo명 sonar rename
-- [ ] **피치덱** — HTML + SVG 설계지도 5종([`기획.md`]§9·8절 남은 스레드: 덱 서사·데모 형식)
-- [ ] (선택) M1 이미지 임상 평가셋(consented, 현재는 도식 합성만)·데모 영상
+- [x] **피치덱** — `docs/pitch.html`(자체완결·다크 소나콘솔, SVG 다이어그램 4종+측정 PNG, 여정·측정·정직 서사)
+- [ ] (선택) 피치덱 live 링크(GitHub Pages/Vercel) · M1 이미지 임상 평가셋(consented) · 데모 영상
 
 ## 명령
 
